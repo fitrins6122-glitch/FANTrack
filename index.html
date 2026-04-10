@@ -57,7 +57,7 @@
         .sidebar {
             width: 280px; height: 100vh;
             background-color: var(--sidebar-bg);
-            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-right: 1px solid var(--border-glass);
             position: fixed; left: 0; top: 0;
             display: none; flex-direction: column; padding: 2.5rem; z-index: 40;
@@ -136,11 +136,25 @@
         .active-piutang { background: rgba(16, 185, 129, 0.2); color: #34d399; }
         
         select option { background-color: #1e293b; color: white; }
+
+        .auth-toggle-btn {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+        .auth-toggle-btn.active {
+            background: var(--primary-blue);
+            color: white;
+        }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <!-- LOGIN SCREEN -->
+    <!-- SCREEN: AUTH (LOGIN & DAFTAR) -->
     <div id="auth-screen" class="fixed inset-0 z-[100] flex items-center justify-center p-6">
         <div class="glass-card max-w-md w-full p-10 space-y-8 shadow-2xl border border-white/20">
             <div class="text-center space-y-4">
@@ -148,14 +162,23 @@
                     <img src="https://res.cloudinary.com/dfbkph06k/image/upload/v1775805472/ChatGPT_Image_Apr_10_2026_02_04_07_PM_rgdx70.png" alt="FANTrack Logo" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
                 <h1 class="text-4xl font-black tracking-tighter text-shadow-pro text-adaptive">FAN<span class="text-blue-500">Track</span></h1>
-                <p class="text-xs font-bold opacity-70 uppercase tracking-[0.3em] text-muted-adaptive">Ultimate Finance Pro</p>
-            </div>
-            <form id="login-form" class="space-y-6">
-                <div class="space-y-4">
-                    <input type="text" id="login-username" class="w-full bg-black/30 p-5 rounded-2xl border border-white/10 outline-none text-white text-center font-bold" placeholder="Username" required>
-                    <input type="password" id="login-pass" class="w-full bg-black/30 p-5 rounded-2xl border border-white/10 outline-none text-white text-center font-bold" placeholder="Password" required>
+                
+                <div class="flex justify-center gap-2 mt-4">
+                    <button id="mode-login-btn" onclick="window.setAuthMode('login')" class="auth-toggle-btn active">MASUK</button>
+                    <button id="mode-register-btn" onclick="window.setAuthMode('register')" class="auth-toggle-btn">DAFTAR</button>
                 </div>
-                <button type="submit" class="w-full py-5 premium-card font-black uppercase tracking-widest text-white shadow-xl">Masuk Sesi</button>
+            </div>
+
+            <form id="auth-form" class="space-y-6">
+                <div class="space-y-4">
+                    <div id="register-fields" class="hidden">
+                        <input type="text" id="auth-fullname" class="w-full bg-black/30 p-5 rounded-2xl border border-white/10 outline-none text-white text-center font-bold mb-4" placeholder="Nama Lengkap">
+                    </div>
+                    <input type="text" id="auth-username" class="w-full bg-black/30 p-5 rounded-2xl border border-white/10 outline-none text-white text-center font-bold" placeholder="Username / Email" required>
+                    <input type="password" id="auth-pass" class="w-full bg-black/30 p-5 rounded-2xl border border-white/10 outline-none text-white text-center font-bold" placeholder="Password" required>
+                </div>
+                <button type="submit" id="auth-submit-btn" class="w-full py-5 premium-card font-black uppercase tracking-widest text-white shadow-xl active:scale-95 transition-all">MASUK SESI</button>
+                <p id="auth-msg" class="text-center text-[10px] font-bold opacity-60 uppercase tracking-widest text-adaptive">Gunakan akun demo Anda</p>
             </form>
         </div>
     </div>
@@ -163,23 +186,23 @@
     <!-- APP SHELL -->
     <div id="app-shell" class="hidden-auth">
         <aside class="sidebar">
-            <div class="flex items-center gap-4 mb-14">
+            <div class="flex items-center gap-4 mb-14 px-2">
                 <div class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-xl overflow-hidden">
                     <img src="https://res.cloudinary.com/dfbkph06k/image/upload/v1775805472/ChatGPT_Image_Apr_10_2026_02_04_07_PM_rgdx70.png" style="width:100%; height:100%; object-fit:cover;">
                 </div>
                 <h1 class="text-2xl font-black tracking-tighter text-shadow-pro text-adaptive">FAN<span class="text-blue-500">Track</span></h1>
             </div>
             <nav class="flex-1 space-y-3">
-                <button onclick="navigate('home')" id="side-home" class="nav-link w-full active"><i class="fas fa-grid-2"></i> Dashboard</button>
-                <button onclick="navigate('report')" id="side-report" class="nav-link w-full"><i class="fas fa-chart-line-up"></i> Pelacakan</button>
-                <button onclick="navigate('target')" id="side-target" class="nav-link w-full"><i class="fas fa-bullseye-arrow"></i> Target Nabung</button>
-                <button onclick="navigate('debt')" id="side-debt" class="nav-link w-full"><i class="fas fa-hand-holding-dollar"></i> Hutang Piutang</button>
+                <button onclick="window.navigate('home')" id="side-home" class="nav-link w-full active">Dashboard</button>
+                <button onclick="window.navigate('report')" id="side-report" class="nav-link w-full">Pelacakan</button>
+                <button onclick="window.navigate('target')" id="side-target" class="nav-link w-full">Target Nabung</button>
+                <button onclick="window.navigate('debt')" id="side-debt" class="nav-link w-full">Hutang Piutang</button>
             </nav>
             <div class="mt-auto pt-8 border-t border-white/10 space-y-4">
-                <div onclick="toggleTheme()" class="theme-toggle mx-auto"><i class="fas fa-moon" id="theme-icon"></i></div>
-                <div onclick="navigate('profile')" class="flex items-center gap-4 w-full p-3 hover:bg-white/5 rounded-2xl cursor-pointer">
+                <div onclick="window.toggleTheme()" class="theme-toggle mx-auto"><i class="fas fa-moon" id="theme-icon"></i></div>
+                <div onclick="window.navigate('profile')" class="flex items-center gap-4 w-full p-3 hover:bg-white/5 rounded-2xl cursor-pointer">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Felix" id="side-avatar" class="w-11 h-11 bg-slate-800 rounded-xl shadow-lg">
-                    <div><p class="text-sm font-extrabold text-adaptive" id="side-name">User</p><p class="text-[10px] text-blue-500 font-bold uppercase">PREMIUM</p></div>
+                    <div><p class="text-sm font-extrabold text-adaptive" id="side-name">User</p><p class="text-[10px] text-blue-500 font-bold uppercase tracking-widest">PREMIUM</p></div>
                 </div>
             </div>
         </aside>
@@ -187,34 +210,32 @@
         <main class="main-content min-h-screen">
             <div class="content-wrapper max-w-7xl mx-auto p-5 lg:p-12 pb-32 lg:pb-12">
                 
-                <!-- HOME -->
                 <section id="page-home" class="page-section active space-y-8">
                     <div class="flex justify-between items-end mb-10">
-                        <div><p class="text-blue-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-2 text-shadow-pro">Manager Pro</p><h2 class="text-4xl font-black tracking-tight text-adaptive">Dashboard</h2></div>
-                        <button onclick="openModal('tx')" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-[22px] font-black text-sm text-white shadow-xl transition-all active:scale-95">CATAT DATA</button>
+                        <div><p class="text-blue-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-2 text-shadow-pro">Financial Manager</p><h2 class="text-4xl font-black tracking-tight text-adaptive text-shadow-pro">Dashboard</h2></div>
+                        <button onclick="window.openModal('tx')" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-[22px] font-black text-sm text-white shadow-xl transition-all active:scale-95">CATAT DATA</button>
                     </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-adaptive">
                         <div class="lg:col-span-2 premium-card p-10 flex flex-col justify-between min-h-[350px]">
-                            <div><p class="text-xs font-bold uppercase opacity-90 tracking-widest text-white">Saldo Bersih</p><h2 id="balance-display" class="text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white">Rp 0</h2></div>
+                            <div><p class="text-xs font-bold uppercase opacity-90 tracking-widest">Saldo Bersih</p><h2 id="balance-display" class="text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white">Rp 0</h2></div>
                             <div class="grid grid-cols-2 gap-10 pt-10 border-t border-white/20">
-                                <div><p class="text-[9px] font-bold opacity-80 uppercase text-white mb-1">Utang</p><p id="home-debt-val" class="text-xl font-black text-rose-200">Rp 0</p></div>
-                                <div class="text-right"><p class="text-[9px] font-bold opacity-80 uppercase text-white mb-1">Piutang</p><p id="home-receiv-val" class="text-xl font-black text-emerald-200">Rp 0</p></div>
+                                <div><p class="text-[9px] font-bold opacity-80 uppercase text-white mb-1">Utang</p><p id="home-debt-val" class="text-xl font-black text-white">Rp 0</p></div>
+                                <div class="text-right"><p class="text-[9px] font-bold opacity-80 uppercase text-white mb-1">Piutang</p><p id="home-receiv-val" class="text-xl font-black text-white">Rp 0</p></div>
                             </div>
                         </div>
                         <div class="glass-card p-10 flex flex-col items-center justify-center text-adaptive">
                             <canvas id="miniChart"></canvas>
-                            <p class="text-[10px] font-black opacity-40 uppercase tracking-[0.3em] mt-4 text-center">Arus Kas</p>
+                            <p class="text-[10px] font-black opacity-40 uppercase tracking-[0.3em] mt-4 text-center">Analisis Arus</p>
                         </div>
                     </div>
                     <div class="space-y-4 pt-6 text-adaptive"><h3 class="font-black text-xl px-2 text-shadow-pro">Aktivitas Terakhir</h3><div id="home-tx-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div></div>
                 </section>
 
-                <!-- REPORT -->
                 <section id="page-report" class="page-section space-y-10 text-adaptive">
                     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
                         <h1 class="text-4xl font-black tracking-tight text-shadow-pro text-adaptive">Pelacakan Tahunan</h1>
                         <div class="glass-card p-2 rounded-2xl flex items-center px-4">
-                            <select id="report-month-select" onchange="renderReport()" class="bg-transparent text-sm font-bold outline-none cursor-pointer p-1">
+                            <select id="report-month-select" onchange="window.renderReport()" class="bg-transparent text-sm font-bold outline-none cursor-pointer p-1">
                                 <option value="0">Januari</option><option value="1">Februari</option><option value="2">Maret</option>
                                 <option value="3" selected>April</option><option value="4">Mei</option><option value="5">Juni</option>
                                 <option value="6">Juli</option><option value="7">Agustus</option><option value="8">September</option>
@@ -224,43 +245,40 @@
                         </div>
                     </div>
                     <div class="glass-card p-10"><div class="w-full h-[400px]"><canvas id="yearlyMainChart"></canvas></div></div>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="glass-card p-8 border-t-4 border-emerald-500 text-center"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Masuk</p><p id="rep-income-val" class="text-2xl font-black text-emerald-500 mt-1">Rp 0</p></div>
-                        <div class="glass-card p-8 border-t-4 border-rose-500 text-center"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Keluar</p><p id="rep-expense-val" class="text-2xl font-black text-rose-500 mt-1">Rp 0</p></div>
-                        <div class="glass-card p-8 border-t-4 border-blue-500 text-center"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Tabungan</p><p id="rep-savings-val" class="text-2xl font-black text-blue-500 mt-1">Rp 0</p></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-adaptive">
+                        <div class="glass-card p-8 border-t-4 border-emerald-500 text-center text-adaptive"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Masuk</p><p id="rep-income-val" class="text-2xl font-black text-emerald-500 mt-1">Rp 0</p></div>
+                        <div class="glass-card p-8 border-t-4 border-rose-500 text-center text-adaptive"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Keluar</p><p id="rep-expense-val" class="text-2xl font-black text-rose-500 mt-1">Rp 0</p></div>
+                        <div class="glass-card p-8 border-t-4 border-blue-500 text-center text-adaptive"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Tabungan</p><p id="rep-savings-val" class="text-2xl font-black text-blue-500 mt-1">Rp 0</p></div>
                     </div>
-                    <div class="space-y-6 pt-10"><h3 class="font-black text-2xl px-2 text-adaptive">Riwayat Lengkap</h3><div id="full-history-list" class="grid grid-cols-1 gap-4"></div></div>
+                    <div class="space-y-6 pt-10 text-adaptive"><h3 class="font-black text-2xl px-2">Riwayat Detail</h3><div id="full-history-list" class="grid grid-cols-1 gap-4 text-adaptive"></div></div>
                 </section>
 
-                <!-- DEBT -->
                 <section id="page-debt" class="page-section space-y-10 text-adaptive">
-                    <div class="flex justify-between items-center"><h1 class="text-4xl font-black tracking-tight text-shadow-pro">Utang Piutang</h1><button onclick="openModal('debt')" class="px-6 py-3 bg-amber-500 text-black rounded-xl font-black text-xs shadow-xl active:scale-95 transition-all uppercase">Tambah Data</button></div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div class="flex justify-between items-center"><h1 class="text-4xl font-black tracking-tight text-shadow-pro text-adaptive">Utang Piutang</h1><button onclick="window.openModal('debt')" class="px-6 py-3 bg-amber-500 text-black rounded-xl font-black text-xs shadow-xl active:scale-95 transition-all uppercase">Tambah</button></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-adaptive">
                         <div class="flex items-center gap-2 bg-black/10 p-2 rounded-[22px] border border-white/10 backdrop-blur-md">
-                            <button onclick="setDebtTrack('hutang')" id="tab-hutang" class="debt-tab flex-1 active-hutang font-black">UTANG SAYA</button>
-                            <button onclick="setDebtTrack('piutang')" id="tab-piutang" class="debt-tab flex-1 inactive font-black">PIUTANG SAYA</button>
+                            <button onclick="window.setDebtTrack('hutang')" id="tab-hutang" class="debt-tab flex-1 active-hutang">UTANG</button>
+                            <button onclick="window.setDebtTrack('piutang')" id="tab-piutang" class="debt-tab flex-1 inactive">PIUTANG</button>
                         </div>
-                        <div class="glass-card p-4 flex items-center justify-center"><p id="debt-summary-val" class="text-xl font-black text-adaptive uppercase tracking-tighter">Total Aktif: Rp 0</p></div>
+                        <div class="glass-card p-4 flex items-center justify-center"><p id="debt-summary-val" class="text-xl font-black text-adaptive uppercase tracking-tighter">Total: Rp 0</p></div>
                     </div>
-                    <div id="debt-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    <div id="debt-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-adaptive"></div>
                 </section>
 
-                <!-- TARGET -->
                 <section id="page-target" class="page-section space-y-8 text-adaptive">
-                    <div class="flex justify-between items-center"><h1 class="text-4xl font-black text-shadow-pro text-adaptive">Saving Goals</h1><button onclick="openModal('target')" class="w-12 h-12 glass-card rounded-2xl flex items-center justify-center text-blue-500 shadow-xl active:scale-95 transition-all"><i class="fas fa-plus"></i></button></div>
-                    <div id="target-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    <div class="flex justify-between items-center"><h1 class="text-4xl font-black text-shadow-pro text-adaptive">Saving Goals</h1><button onclick="window.openModal('target')" class="w-12 h-12 glass-card rounded-2xl flex items-center justify-center text-blue-500 shadow-xl active:scale-95 transition-all"><i class="fas fa-plus text-white"></i></button></div>
+                    <div id="target-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-adaptive"></div>
                 </section>
 
-                <!-- PROFILE -->
                 <section id="page-profile" class="page-section max-w-4xl mx-auto space-y-10 pt-16 text-adaptive">
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-adaptive">
                         <div class="lg:col-span-1 glass-card p-10 text-center space-y-6">
                             <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Felix" id="profile-avatar" class="w-32 h-32 mx-auto bg-slate-800 rounded-[40px] border-4 border-blue-500 shadow-2xl">
                             <div><h2 class="text-3xl font-black tracking-tight text-adaptive" id="profile-name-display">User</h2><p class="text-blue-500 font-bold uppercase tracking-[0.3em] text-[10px]">FANTrack Member</p></div>
                         </div>
                         <div class="lg:col-span-2 space-y-6 text-adaptive">
-                            <div class="glass-card p-10 space-y-8 text-adaptive"><h3 class="font-black text-xl">Profil Akun</h3><input type="text" id="edit-name" class="w-full p-4 rounded-xl outline-none input-adaptive" placeholder="Nama Baru"><button onclick="updateProfile()" class="px-8 py-4 premium-card font-black uppercase text-xs w-full shadow-lg">Simpan</button></div>
-                            <button onclick="logout()" class="w-full py-6 glass-card text-rose-500 font-black uppercase text-xs hover:bg-rose-500/10 transition-all tracking-[0.3em]">Logout</button>
+                            <div class="glass-card p-10 space-y-8 text-adaptive"><h3 class="font-black text-xl">Profil Akun</h3><input type="text" id="edit-name" class="w-full p-4 rounded-xl outline-none input-adaptive" placeholder="Nama Baru"><button onclick="window.updateProfile()" class="px-8 py-4 premium-card font-black uppercase text-xs w-full shadow-lg">Simpan</button></div>
+                            <button onclick="window.logout()" class="w-full py-6 glass-card text-rose-500 font-black uppercase text-xs hover:bg-rose-500/10 transition-all tracking-[0.3em]">Logout Sesi</button>
                         </div>
                     </div>
                 </section>
@@ -268,32 +286,30 @@
         </main>
 
         <nav class="bottom-nav lg:hidden">
-            <button onclick="navigate('home')" id="nav-home" class="flex flex-col items-center gap-1 text-blue-500 transition-all"><i class="fas fa-home text-xl text-white"></i><span class="text-[8px] font-black uppercase text-white">Home</span></button>
-            <button onclick="navigate('report')" id="nav-report" class="flex flex-col items-center gap-1 text-slate-500 transition-all"><i class="fas fa-chart-pie text-xl text-white"></i><span class="text-[8px] font-black uppercase text-white">Stats</span></button>
-            <button onclick="openModal('tx')" class="fab-btn text-white shadow-xl"><i class="fas fa-plus text-white"></i></button>
-            <button onclick="navigate('target')" id="nav-target" class="flex flex-col items-center gap-1 text-slate-500 transition-all"><i class="fas fa-bullseye text-xl text-white"></i><span class="text-[8px] font-black uppercase text-white">Target</span></button>
-            <button onclick="navigate('profile')" id="nav-profile" class="flex flex-col items-center gap-1 text-slate-500 transition-all"><i class="fas fa-user text-xl text-white"></i><span class="text-[8px] font-black uppercase text-white">User</span></button>
+            <button onclick="window.navigate('home')" id="nav-home" class="flex flex-col items-center gap-1 text-blue-500 transition-all"><i class="fas fa-home text-xl text-white"></i><span class="text-[8px] font-black uppercase text-white">Home</span></button>
+            <button onclick="window.navigate('report')" id="nav-report" class="flex flex-col items-center gap-1 text-slate-500 transition-all"><i class="fas fa-chart-pie text-xl text-white"></i><span class="text-[8px] font-black uppercase text-white">Stats</span></button>
+            <button onclick="window.openModal('tx')" class="fab-btn text-white shadow-xl"><i class="fas fa-plus text-white"></i></button>
+            <button onclick="window.navigate('target')" id="nav-target" class="flex flex-col items-center gap-1 text-slate-500 transition-all"><i class="fas fa-bullseye text-xl text-white"></i><span class="text-[8px] font-black uppercase text-white">Target</span></button>
+            <button onclick="window.navigate('profile')" id="nav-profile" class="flex flex-col items-center gap-1 text-slate-500 transition-all"><i class="fas fa-user text-xl text-white"></i><span class="text-[8px] font-black uppercase text-white">User</span></button>
         </nav>
     </div>
 
-    <!-- MODALS -->
-    <div id="modal-container" class="hidden fixed inset-0 modal-overlay flex items-center justify-center p-6">
-        <div class="absolute inset-0" onclick="closeModals()"></div>
+    <!-- MODALS CONTAINER -->
+    <div id="modal-container" class="hidden fixed inset-0 modal-overlay flex items-center justify-center p-6 text-adaptive">
+        <div class="absolute inset-0" onclick="window.closeModals()"></div>
         
-        <!-- Modal Transaksi -->
         <div id="modal-tx" class="relative w-full max-w-lg glass-card bg-slate-900 p-10 space-y-6 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl">
-            <h2 id="tx-modal-title" class="text-3xl font-black text-center text-adaptive">Catat Kas</h2>
+            <h2 id="tx-modal-title" class="text-3xl font-black text-center text-adaptive">Input Kas</h2>
             <form id="form-tx" class="space-y-6">
                 <input type="hidden" id="edit-tx-id">
                 <div class="flex bg-slate-800/50 p-2 rounded-2xl dark:bg-slate-800/50 light:bg-slate-200"><button type="button" onclick="window.setTxType('expense')" id="btn-exp" class="flex-1 py-4 text-[10px] font-black rounded-xl bg-slate-700 text-white">KELUAR</button><button type="button" onclick="window.setTxType('income')" id="btn-inc" class="flex-1 py-4 text-[10px] font-black rounded-xl text-slate-400">MASUK</button></div>
                 <div class="grid grid-cols-3 gap-2"><button type="button" onclick="window.setTxCategory('Living')" id="cat-Living" class="cat-pill py-3 rounded-xl border border-white/10 text-[10px] font-black">LIVING</button><button type="button" onclick="window.setTxCategory('Lifestyle')" id="cat-Lifestyle" class="cat-pill py-3 rounded-xl border border-white/10 text-[10px] font-black opacity-50">LIFESTYLE</button><button type="button" onclick="window.setTxCategory('Giving')" id="cat-Giving" class="cat-pill py-3 rounded-xl border border-white/10 text-[10px] font-black opacity-50">GIVING</button></div>
                 <input type="number" id="tx-amount" class="w-full p-6 rounded-[24px] text-4xl font-black text-center outline-none input-adaptive" placeholder="0" required>
                 <input type="text" id="tx-desc" class="w-full p-5 rounded-2xl outline-none text-center text-sm input-adaptive font-bold" placeholder="Keterangan">
-                <button type="submit" class="w-full py-6 premium-card font-black uppercase text-white shadow-xl">Simpan</button>
+                <button type="submit" class="w-full py-6 premium-card font-black uppercase text-white shadow-xl">SIMPAN</button>
             </form>
         </div>
 
-        <!-- Modal Cicil Utang -->
         <div id="modal-debt-pay" class="relative w-full max-w-sm glass-card bg-slate-900 p-10 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl">
             <h2 class="text-xl font-black text-center text-rose-500 uppercase tracking-widest text-adaptive">Bayar Cicilan</h2>
             <div class="mt-4 p-4 bg-black/20 rounded-2xl text-center">
@@ -303,41 +319,38 @@
             <form id="form-debt-pay" class="space-y-6 mt-6">
                 <input type="hidden" id="debt-pay-id">
                 <input type="number" id="debt-pay-amount" class="w-full p-5 rounded-2xl text-2xl font-black text-center outline-none input-adaptive" placeholder="Rp 0" required>
-                <button type="submit" class="w-full py-5 bg-rose-600 text-white font-black uppercase rounded-2xl shadow-xl active:scale-95 transition-all">Konfirmasi</button>
+                <button type="submit" class="w-full py-5 bg-rose-600 text-white font-black uppercase rounded-2xl shadow-xl active:scale-95 transition-all">KONFIRMASI</button>
             </form>
         </div>
 
-        <!-- Modal Tabung Custom -->
         <div id="modal-save-custom" class="relative w-full max-w-sm glass-card bg-slate-900 p-10 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl text-adaptive">
             <h2 class="text-xl font-black text-center text-blue-500 uppercase tracking-widest text-adaptive">Menabung</h2>
             <p id="save-custom-info" class="text-center text-[10px] font-bold opacity-60 mt-2 uppercase text-adaptive"></p>
             <form id="form-save-custom" class="space-y-6 mt-6">
                 <input type="hidden" id="save-custom-id">
                 <input type="number" id="save-custom-amount" class="w-full p-5 rounded-2xl text-2xl font-black text-center outline-none input-adaptive" placeholder="Rp 0" required>
-                <button type="submit" class="w-full py-5 premium-card font-black uppercase rounded-2xl text-white shadow-xl">Konfirmasi</button>
+                <button type="submit" class="w-full py-5 premium-card font-black uppercase rounded-2xl text-white shadow-xl">KONFIRMASI</button>
             </form>
         </div>
 
-        <!-- Modal Tambah/Edit Target -->
         <div id="modal-target" class="relative w-full max-w-lg glass-card bg-slate-900 p-10 space-y-6 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl text-adaptive">
-            <h2 id="target-modal-title" class="text-3xl font-black text-center text-blue-500 uppercase">Saving Goal</h2>
+            <h2 id="target-modal-title" class="text-3xl font-black text-center text-blue-500 uppercase text-adaptive">Saving Goal</h2>
             <form id="form-target" class="space-y-4">
                 <input type="hidden" id="edit-target-id">
                 <input type="text" id="tg-name" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold text-center" placeholder="Nama Rencana" required>
-                <div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Total Target Akhir (Rp)</label><input type="number" id="tg-goal" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold" placeholder="0" required></div>
+                <div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Target Akhir (Rp)</label><input type="number" id="tg-goal" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold" placeholder="0" required></div>
                 <div class="grid grid-cols-2 gap-4"><div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Deadline</label><input type="date" id="tg-date" class="w-full p-4 rounded-xl outline-none input-adaptive text-sm font-bold" required></div><div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Frekuensi</label><select id="tg-freq" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold"><option value="daily">Harian</option><option value="weekly">Mingguan</option><option value="monthly">Bulanan</option></select></div></div>
                 <div class="grid grid-cols-2 gap-4"><div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Mode</label><select id="tg-style" onchange="window.toggleStableInput()" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold"><option value="stabil">Stabil</option><option value="fluct">Fluktuatif</option></select></div><div class="space-y-1" id="stable-nominal-container"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Nominal Rutin</label><input type="number" id="tg-stable-val" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold" placeholder="0"></div></div>
                 <button type="submit" class="w-full py-5 premium-card font-black uppercase text-white shadow-xl mt-4">Aktifkan Target</button>
             </form>
         </div>
 
-        <!-- Modal Tambah/Edit Utang -->
         <div id="modal-debt" class="relative w-full max-w-lg glass-card bg-slate-900 p-10 space-y-6 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl text-adaptive">
-            <h2 id="debt-modal-title" class="text-3xl font-black text-center text-amber-500 uppercase">Utang Piutang</h2>
+            <h2 id="debt-modal-title" class="text-3xl font-black text-center text-amber-500 uppercase text-adaptive">Utang Piutang</h2>
             <form id="form-debt" class="space-y-4">
                 <input type="hidden" id="edit-debt-id">
                 <div class="flex bg-slate-800/50 p-2 rounded-2xl dark:bg-slate-800/50 light:bg-slate-200"><button type="button" onclick="window.setDebtInputType('hutang')" id="btn-db-hutang" class="flex-1 py-4 text-[10px] font-black rounded-xl bg-slate-700 text-white">UTANG</button><button type="button" onclick="window.setDebtInputType('piutang')" id="btn-db-piutang" class="flex-1 py-4 text-[10px] font-black rounded-xl text-slate-400">PIUTANG</button></div>
-                <input type="text" id="db-name" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold" placeholder="Nama Pihak" required>
+                <input type="text" id="db-name" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold text-center" placeholder="Nama Pihak" required>
                 <div class="grid grid-cols-2 gap-4"><input type="number" id="db-amount" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold" placeholder="Nominal Total" required><input type="date" id="db-date" class="w-full p-4 rounded-xl outline-none input-adaptive text-sm font-bold" required></div>
                 <button type="submit" class="w-full py-5 bg-amber-500 text-black font-black uppercase shadow-xl">Konfirmasi</button>
             </form>
@@ -346,70 +359,98 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc, addDoc, getDocs, updateDoc, deleteDoc, onSnapshot, query, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, updateProfile as firebaseUpdateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // --- Firebase Core Config (Using system global) ---
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'fantrack-default';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'fantrack-main-app';
 
+        // --- Global State ---
+        window.isLoggedIn = false;
+        window.authMode = 'login'; 
         let user = null;
-        let isLoggedIn = false;
-        let transactions = [];
-        let targets = [];
-        let debts = [];
+        let transactions = [], targets = [], debts = [];
         let miniChart = null, yearlyMainChart = null;
         let txType = 'expense', txCategory = 'Living', debtTrackMode = 'hutang', debtInputType = 'hutang';
 
         const setUI = (id, text) => { const el = document.getElementById(id); if(el) el.innerText = text; };
 
+        // --- Auth Initialization ---
         const initAuth = async () => {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                await signInAnonymously(auth);
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                }
+                // Jika tidak ada token, user harus login/daftar manual melalui form
+            } catch (err) {
+                console.error("Auth Fail:", err);
             }
         };
 
         onAuthStateChanged(auth, (u) => {
             user = u;
             if (user) {
+                window.isLoggedIn = true;
+                document.getElementById('auth-screen').classList.add('hidden');
+                document.getElementById('app-shell').classList.remove('hidden-auth');
+                setUI('side-name', user.displayName || 'Meowser');
+                setUI('profile-name-display', user.displayName || 'Meowser');
                 setupFirestoreListeners();
+            } else {
+                window.isLoggedIn = false;
+                document.getElementById('auth-screen').classList.remove('hidden');
+                document.getElementById('app-shell').classList.add('hidden-auth');
             }
         });
 
         const setupFirestoreListeners = () => {
             if (!user) return;
-            const txQuery = collection(db, 'artifacts', appId, 'users', user.uid, 'transactions');
-            onSnapshot(txQuery, (snapshot) => { transactions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); updateAllUI(); }, (err) => console.error(err));
-            const targetQuery = collection(db, 'artifacts', appId, 'users', user.uid, 'targets');
-            onSnapshot(targetQuery, (snapshot) => { targets = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); updateAllUI(); }, (err) => console.error(err));
-            const debtQuery = collection(db, 'artifacts', appId, 'users', user.uid, 'debts');
-            onSnapshot(debtQuery, (snapshot) => { debts = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })); updateAllUI(); }, (err) => console.error(err));
+            const path = ['artifacts', appId, 'users', user.uid];
+            onSnapshot(collection(db, ...path, 'transactions'), (snap) => { transactions = snap.docs.map(d => ({ id: d.id, ...d.data() })); updateAllUI(); }, (err) => console.error(err));
+            onSnapshot(collection(db, ...path, 'targets'), (snap) => { targets = snap.docs.map(d => ({ id: d.id, ...d.data() })); updateAllUI(); }, (err) => console.error(err));
+            onSnapshot(collection(db, ...path, 'debts'), (snap) => { debts = snap.docs.map(d => ({ id: d.id, ...d.data() })); updateAllUI(); }, (err) => console.error(err));
         };
 
-        const updateAllUI = () => {
-            renderHome();
-            renderReport();
-            renderDebts();
-            renderTargets();
+        const updateAllUI = () => { renderHome(); window.renderReport(); renderDebts(); renderTargets(); };
+
+        // --- Window Globals ---
+        window.setAuthMode = (mode) => {
+            window.authMode = mode;
+            const regFields = document.getElementById('register-fields');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const loginBtn = document.getElementById('mode-login-btn');
+            const regBtn = document.getElementById('mode-register-btn');
+            const msg = document.getElementById('auth-msg');
+
+            if (mode === 'register') {
+                regFields.classList.remove('hidden');
+                submitBtn.innerText = 'DAFTAR SEKARANG';
+                loginBtn.classList.remove('active');
+                regBtn.classList.add('active');
+                msg.innerText = 'Buat akun baru FANTrack';
+            } else {
+                regFields.classList.add('hidden');
+                submitBtn.innerText = 'MASUK SESI';
+                loginBtn.classList.add('active');
+                regBtn.classList.remove('active');
+                msg.innerText = 'Gunakan akun demo Anda';
+            }
         };
 
         window.navigate = (p) => {
-            if(!isLoggedIn) return;
+            if(!window.isLoggedIn) return;
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById(`page-${p}`);
-            if(target) target.classList.add('active');
+            const page = document.getElementById(`page-${p}`);
+            if(page) page.classList.add('active');
             document.querySelectorAll('.nav-link, .bottom-nav button').forEach(n => {
-                if(n.id === `side-${p}` || n.id === `nav-${p}`) {
-                    n.classList.add('active');
-                    n.classList.replace('text-slate-500', 'text-blue-500');
-                } else {
-                    n.classList.remove('active');
-                    n.classList.replace('text-blue-500', 'text-slate-500');
-                }
+                const isActive = n.id === `side-${p}` || n.id === `nav-${p}`;
+                n.classList.toggle('active', isActive);
+                if(isActive) n.classList.replace('text-slate-500', 'text-blue-500');
+                else n.classList.replace('text-blue-500', 'text-slate-500');
             });
             window.scrollTo(0,0);
         };
@@ -423,16 +464,37 @@
         };
 
         window.openModal = (m) => { document.getElementById('modal-container').classList.remove('hidden'); document.getElementById('modal-container').classList.add('flex'); document.querySelectorAll('[id^="modal-"]').forEach(modal => { if(modal.id === `modal-${m}`) modal.classList.remove('hidden'); else if(modal.id !== 'modal-container') modal.classList.add('hidden'); }); };
-        window.closeModals = () => { document.getElementById('modal-container').classList.add('hidden'); document.getElementById('form-tx').reset(); document.getElementById('form-target').reset(); document.getElementById('form-debt').reset(); document.getElementById('edit-tx-id').value = ''; document.getElementById('edit-target-id').value = ''; document.getElementById('edit-debt-id').value = ''; };
+        window.closeModals = () => { document.getElementById('modal-container').classList.add('hidden'); };
 
         window.setTxType = (t) => { txType = t; document.getElementById('btn-exp').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'expense' ? 'bg-slate-700 text-white' : 'text-slate-400'}`; document.getElementById('btn-inc').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'income' ? 'bg-slate-700 text-white' : 'text-slate-400'}`; };
         window.setTxCategory = (c) => { txCategory = c; document.querySelectorAll('.cat-pill').forEach(p => p.classList.add('opacity-50')); document.getElementById(`cat-${c}`).classList.remove('opacity-50'); };
         window.setDebtInputType = (t) => { debtInputType = t; document.getElementById('btn-db-hutang').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'hutang' ? 'bg-slate-700 text-white' : 'text-slate-400'}`; document.getElementById('btn-db-piutang').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'piutang' ? 'bg-slate-700 text-white' : 'text-slate-400'}`; };
         window.setDebtTrack = (m) => { debtTrackMode = m; document.getElementById('tab-hutang').className = `debt-tab flex-1 ${m === 'hutang' ? 'active-hutang' : 'inactive'}`; document.getElementById('tab-piutang').className = `debt-tab flex-1 ${m === 'piutang' ? 'active-piutang' : 'inactive'}`; renderDebts(); };
         window.toggleStableInput = () => { const style = document.getElementById('tg-style').value; document.getElementById('stable-nominal-container').style.opacity = style === 'stabil' ? '1' : '0.3'; document.getElementById('tg-stable-val').disabled = style !== 'stabil'; };
-        window.updateProfile = () => { const n = document.getElementById('edit-name').value; if(n) { setUI('side-name', n); setUI('profile-name-display', n); } };
+        window.updateProfile = async () => { const n = document.getElementById('edit-name').value; if(n && user) { await firebaseUpdateProfile(user, { displayName: n }); setUI('side-name', n); setUI('profile-name-display', n); alert('Profil Berhasil Diperbarui'); } };
         window.logout = () => { auth.signOut().then(() => location.reload()); };
 
+        // --- Form Submission Logic ---
+        document.getElementById('auth-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('auth-username').value;
+            const fullname = document.getElementById('auth-fullname').value;
+            try {
+                // Di pratinjau Canvas, gunakan sign-in anonim agar tidak terbentur permission
+                await signInAnonymously(auth);
+                const currentUser = auth.currentUser;
+                if (window.authMode === 'register' && fullname) {
+                    await firebaseUpdateProfile(currentUser, { displayName: fullname });
+                } else if (username) {
+                    await firebaseUpdateProfile(currentUser, { displayName: username });
+                }
+                // Refresh data via onAuthStateChanged akan otomatis handle masuk shell
+            } catch (err) {
+                console.error("Auth Error", err);
+            }
+        };
+
+        // --- Core UI Functions ---
         function renderHome() {
             const inc = transactions.filter(t => t.type === 'income').reduce((a,b) => a + Number(b.amount), 0);
             const exp = transactions.filter(t => t.type === 'expense').reduce((a,b) => a + Number(b.amount), 0);
@@ -440,14 +502,41 @@
             setUI('home-debt-val', `Rp ${debts.filter(d => d.type === 'hutang' && d.status === 'belum').reduce((a,b)=>a+(Number(b.amount)-Number(b.paid)),0).toLocaleString()}`);
             setUI('home-receiv-val', `Rp ${debts.filter(d => d.type === 'piutang' && d.status === 'belum').reduce((a,b)=>a+(Number(b.amount)-Number(b.paid)),0).toLocaleString()}`);
             const list = document.getElementById('home-tx-list');
-            if(list) list.innerHTML = transactions.sort((a,b) => (b.date?.seconds || 0) - (a.date?.seconds || 0)).slice(0, 5).map(t => `<div class="glass-card p-6 flex justify-between items-center text-adaptive group"><div class="flex items-center gap-4"><div class="w-12 h-12 bg-black/10 dark:bg-white/10 rounded-2xl flex items-center justify-center text-xl shadow-inner text-adaptive"><i class="fas ${t.type==='income'?'fa-arrow-up text-emerald-400':'fa-arrow-down text-rose-400'}"></i></div><div><p class="text-sm font-bold text-adaptive">${t.desc}</p><p class="text-[9px] opacity-60 uppercase font-black text-adaptive">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString() : '-'}</p></div></div><div class="flex items-center gap-4"><p class="font-black ${t.type === 'expense' ? 'text-rose-400' : 'text-emerald-400'}">${t.type === 'expense' ? '-' : '+'} ${Number(t.amount).toLocaleString()}</p><div class="hidden group-hover:flex gap-2"><button onclick="editTx('${t.id}')" class="text-blue-500 text-xs"><i class="fas fa-pen"></i></button><button onclick="deleteTx('${t.id}')" class="text-rose-500 text-xs"><i class="fas fa-trash"></i></button></div></div></div>`).join('');
+            if(list) list.innerHTML = transactions.sort((a,b) => (b.date?.seconds || 0) - (a.date?.seconds || 0)).slice(0, 5).map(t => `<div class="glass-card p-6 flex justify-between items-center text-adaptive"><div class="flex items-center gap-4"><div class="w-12 h-12 bg-black/10 dark:bg-white/10 rounded-2xl flex items-center justify-center text-xl shadow-inner text-adaptive"><i class="fas ${t.type==='income'?'fa-arrow-up text-emerald-400':'fa-arrow-down text-rose-400'}"></i></div><div><p class="text-sm font-bold text-adaptive">${t.desc}</p><p class="text-[9px] opacity-60 uppercase font-black text-adaptive">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString() : '-'}</p></div></div><div class="flex items-center gap-4 text-adaptive"><p class="font-black ${t.type === 'expense' ? 'text-rose-400' : 'text-emerald-400'}">${t.type === 'expense' ? '-' : '+'} ${Number(t.amount).toLocaleString()}</p></div></div>`).join('');
             const ctx = document.getElementById('miniChart');
             if(ctx) { if(miniChart) miniChart.destroy(); miniChart = new Chart(ctx.getContext('2d'), { type: 'doughnut', data: { datasets: [{ data: [exp || 1, Math.max(1, inc-exp)], backgroundColor: ['#f87171', '#3b82f6'], borderWidth: 0, borderRadius: 10, spacing: 5 }] }, options: { cutout: '85%', plugins: { legend: { display: false } } } }); }
         }
 
         window.deleteTx = async (id) => { if(user) await deleteDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'transactions', id)); };
-        window.editTx = (id) => { const t = transactions.find(x => x.id === id); if(t) { document.getElementById('edit-tx-id').value = id; document.getElementById('tx-amount').value = t.amount; document.getElementById('tx-desc').value = t.desc; window.setTxType(t.type); window.setTxCategory(t.category); window.openModal('tx'); } };
-        document.getElementById('form-tx').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const id = document.getElementById('edit-tx-id').value, amt = Number(document.getElementById('tx-amount').value), desc = document.getElementById('tx-desc').value, data = { amount: amt, desc, type: txType, category: txCategory, date: Timestamp.now() }; if(id) await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'transactions', id), data); else await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'transactions'), data); window.closeModals(); };
+
+        window.renderReport = () => {
+            const mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+            const incD = new Array(12).fill(0), expD = new Array(12).fill(0);
+            transactions.forEach(t => { const m = t.date ? new Date(t.date.seconds * 1000).getMonth() : new Date().getMonth(); if(t.type === 'income') incD[m] += Number(t.amount); else expD[m] += Number(t.amount); });
+            const ctxY = document.getElementById('yearlyMainChart');
+            if(ctxY) { if(yearlyMainChart) yearlyMainChart.destroy(); yearlyMainChart = new Chart(ctxY.getContext('2d'), { type: 'bar', data: { labels: mNames, datasets: [{ label: 'Masuk', data: incD, backgroundColor: '#10b981', borderRadius: 8 }, { label: 'Keluar', data: expD, backgroundColor: '#f87171', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { display: false }, x: { grid: { display: false }, ticks: { color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569', font: { weight: 'bold', size: 10 } } } }, plugins: { legend: { display: false } } } }); }
+            const selMonth = parseInt(document.getElementById('report-month-select').value);
+            setUI('rep-income-val', `Rp ${incD[selMonth].toLocaleString()}`);
+            setUI('rep-expense-val', `Rp ${expD[selMonth].toLocaleString()}`);
+            setUI('rep-savings-val', `Rp ${(incD[selMonth]-expD[selMonth]).toLocaleString()}`);
+            const fullList = document.getElementById('full-history-list');
+            if(fullList) { const monthTxs = transactions.filter(t => (t.date ? new Date(t.date.seconds * 1000).getMonth() : -1) === selMonth); fullList.innerHTML = monthTxs.reverse().map(t => `<div class="glass-card p-4 flex justify-between items-center text-adaptive"><div><p class="font-bold text-sm text-adaptive">${t.desc}</p><p class="text-[9px] opacity-60 uppercase font-black text-adaptive">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString() : '-'}</p></div><div class="text-right flex items-center gap-4 text-adaptive"><p class="font-black ${t.type==='expense'?'text-rose-400':'text-emerald-400'}">${t.type==='expense'?'-':'+'} Rp ${Number(t.amount).toLocaleString()}</p><button onclick="window.deleteTx('${t.id}')" class="text-rose-500 text-xs p-2 hover:bg-rose-500/10 rounded-lg transition-all"><i class="fas fa-trash"></i></button></div></div>`).join('') || '<p class="text-center opacity-40 text-adaptive">Tidak ada data</p>'; }
+        };
+
+        function renderDebts() {
+            const list = document.getElementById('debt-list');
+            const filtered = debts.filter(d => d.type === debtTrackMode);
+            setUI('debt-summary-val', `Total: Rp ${filtered.filter(d => d.status === 'belum').reduce((a,b)=>a+(Number(b.amount)-Number(b.paid)),0).toLocaleString()}`);
+            if(list) list.innerHTML = filtered.map(d => {
+                const dl = d.date ? new Date(d.date) : new Date(), diff = Math.ceil((dl - new Date())/(1000*60*60*24)), perc = (Number(d.paid)/Number(d.amount))*100;
+                return `<div class="glass-card p-6 space-y-4 relative ${d.status === 'lunas' ? 'opacity-30' : ''} text-adaptive"><div class="flex justify-between items-start text-adaptive"><div class="flex gap-3 text-adaptive"><div onclick="window.toggleDebtCheck('${d.id}')" class="w-6 h-6 rounded-lg border-2 border-white/20 flex items-center justify-center cursor-pointer">${d.status === 'lunas' ? '<i class="fas fa-check text-blue-500"></i>' : ''}</div><div><h4 class="font-black text-sm text-adaptive">${d.name}</h4><p class="text-[9px] font-bold ${diff < 0 ? 'text-rose-500' : 'text-emerald-500'} uppercase">${diff < 0 ? 'Telat '+Math.abs(diff)+' Hari' : 'Sisa '+diff+' Hari'}</p></div></div><div class="flex gap-2 text-adaptive"><button onclick="window.deleteDebt('${d.id}')" class="text-rose-500 text-xs"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-1.5 rounded-full overflow-hidden shadow-inner text-adaptive"><div class="bg-amber-500 h-full text-adaptive" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-[10px] font-black opacity-60 text-adaptive"><span>Saldo: Rp ${Number(d.amount).toLocaleString()}</span><span>Lunas: ${Math.round(perc)}%</span></div><button onclick="window.openDebtPay('${d.id}')" class="w-full py-2.5 bg-white/5 hover:bg-blue-500 hover:text-white rounded-xl text-[9px] font-black uppercase text-adaptive transition-all font-black">CICIL</button></div>`;
+            }).join('');
+        }
+
+        window.toggleDebtCheck = async (id) => { if(user) { const d = debts.find(x => x.id === id); const ns = d.status === 'lunas' ? 'belum' : 'lunas'; await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id), { status: ns, paid: ns === 'lunas' ? d.amount : 0 }); } };
+        window.deleteDebt = async (id) => { if(user) await deleteDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id)); };
+        window.openDebtPay = (id) => { const d = debts.find(x => x.id === id); if(d) { document.getElementById('debt-pay-id').value = id; setUI('debt-pay-info', d.name); setUI('debt-pay-remaining', `Sisa: Rp ${(Number(d.amount) - Number(d.paid)).toLocaleString()}`); window.openModal('debt-pay'); } };
+        document.getElementById('form-debt-pay').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const id = document.getElementById('debt-pay-id').value, amt = Number(document.getElementById('debt-pay-amount').value), d = debts.find(x => x.id === id); if(d && amt > 0) { const np = Number(d.paid) + amt; await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id), { paid: np, status: np >= Number(d.amount) ? 'lunas' : 'belum' }); await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'transactions'), { amount: amt, desc: `Cicil: ${d.name}`, type: d.type === 'hutang' ? 'expense' : 'income', category: 'Living', date: Timestamp.now() }); window.closeModals(); } };
 
         function renderTargets() {
             const list = document.getElementById('target-list');
@@ -460,59 +549,20 @@
                 else if(tg.freq === 'weekly') { sysSuggest = Math.round(rem/(diff/7 || 1)); label = "Minggu"; }
                 else { sysSuggest = Math.round(rem/(diff/30 || 1)); label = "Bulan"; }
                 const finalAmt = tg.style === 'stabil' ? (Number(tg.stableVal) || sysSuggest) : 0;
-                let btn = tg.style === 'stabil' ? `<button onclick="saveTarget('${tg.id}', ${finalAmt})" class="w-full py-4 bg-emerald-500/20 text-emerald-500 rounded-2xl text-[10px] font-black uppercase border border-emerald-500/20 hover:bg-emerald-500 hover:text-white transition-all">TABUNG Rp ${finalAmt.toLocaleString()}</button>` : `<button onclick="openCustomSave('${tg.id}')" class="w-full py-4 bg-blue-500/20 text-blue-500 rounded-2xl text-[10px] font-black uppercase border border-blue-500/20 hover:bg-blue-600 hover:text-white transition-all">TABUNG BEBAS</button>`;
-                return `<div class="glass-card p-8 flex flex-col gap-6 text-adaptive relative overflow-hidden group"><div class="flex justify-between items-start"><div><h3 class="font-black text-xl text-adaptive">${tg.name}</h3><p class="text-[10px] font-black uppercase opacity-60 text-adaptive">${tg.style} • ${tg.freq}</p></div><div class="flex gap-2"><button onclick="editTarget('${tg.id}')" class="text-blue-500 text-xs"><i class="fas fa-pen"></i></button><button onclick="deleteTarget('${tg.id}')" class="text-rose-500 text-xs"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-2.5 rounded-full overflow-hidden shadow-inner"><div class="bg-blue-600 h-full transition-all duration-1000" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-xs font-black text-adaptive"><span>Target: Rp ${Number(tg.goal).toLocaleString()}</span><span>${perc}%</span></div><div class="flex justify-between text-[10px] font-bold opacity-60 text-adaptive"><span>Sisa: ${diff} Hari</span><span>Saran per ${label}: Rp ${sysSuggest.toLocaleString()}</span></div>${btn}</div>`;
+                let btn = tg.style === 'stabil' ? `<button onclick="window.saveTarget('${tg.id}', ${finalAmt})" class="w-full py-4 bg-emerald-500/20 text-emerald-500 rounded-2xl text-[10px] font-black uppercase border border-emerald-500/20 hover:bg-emerald-500 hover:text-white transition-all">TABUNG Rp ${finalAmt.toLocaleString()}</button>` : `<button onclick="window.openCustomSave('${tg.id}')" class="w-full py-4 bg-blue-500/20 text-blue-500 rounded-2xl text-[10px] font-black uppercase border border-blue-500/20 hover:bg-blue-600 hover:text-white transition-all">TABUNG BEBAS</button>`;
+                return `<div class="glass-card p-8 flex flex-col gap-6 text-adaptive relative overflow-hidden group text-adaptive"><div class="flex justify-between items-start text-adaptive"><div><h3 class="font-black text-xl text-adaptive">${tg.name}</h3><p class="text-[10px] font-black uppercase opacity-60 text-adaptive">${tg.style} • ${tg.freq}</p></div><div class="flex gap-2"><button onclick="window.deleteTarget('${tg.id}')" class="text-rose-500 text-xs"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-2.5 rounded-full overflow-hidden shadow-inner"><div class="bg-blue-600 h-full transition-all duration-1000" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-xs font-black text-adaptive"><span>Target: Rp ${Number(tg.goal).toLocaleString()}</span><span>${perc}%</span></div><div class="flex justify-between text-[10px] font-bold opacity-60 text-adaptive"><span>Sisa: ${diff} Hari</span><span>Saran per ${label}: Rp ${sysSuggest.toLocaleString()}</span></div>${btn}</div>`;
             }).join('');
         }
         window.saveTarget = async (id, amt) => { if(!user) return; const t = targets.find(x => x.id === id); if(t && amt > 0) { await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'targets', id), { saved: Number(t.saved) + Number(amt) }); await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'transactions'), { amount: amt, desc: `Tabung: ${t.name}`, type: 'expense', category: 'Living', date: Timestamp.now() }); } };
         window.deleteTarget = async (id) => { if(user) await deleteDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'targets', id)); };
-        window.editTarget = (id) => { const t = targets.find(x => x.id === id); if(t) { document.getElementById('edit-target-id').value = id; document.getElementById('tg-name').value = t.name; document.getElementById('tg-goal').value = t.goal; document.getElementById('tg-date').value = t.deadline; document.getElementById('tg-style').value = t.style; document.getElementById('tg-freq').value = t.freq; document.getElementById('tg-stable-val').value = t.stableVal || ''; window.toggleStableInput(); window.openModal('target'); } };
-        document.getElementById('form-target').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const id = document.getElementById('edit-target-id').value, data = { name: document.getElementById('tg-name').value, goal: Number(document.getElementById('tg-goal').value), deadline: document.getElementById('tg-date').value, style: document.getElementById('tg-style').value, freq: document.getElementById('tg-freq').value, stableVal: Number(document.getElementById('tg-stable-val').value) || 0 }; if(id) await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'targets', id), data); else await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'targets'), { ...data, saved: 0 }); window.closeModals(); };
         window.openCustomSave = (id) => { const t = targets.find(x => x.id === id); if(t) { document.getElementById('save-custom-id').value = id; setUI('save-custom-info', t.name); window.openModal('save-custom'); } };
         document.getElementById('form-save-custom').onsubmit = async (e) => { e.preventDefault(); await window.saveTarget(document.getElementById('save-custom-id').value, Number(document.getElementById('save-custom-amount').value)); window.closeModals(); };
+        document.getElementById('form-target').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const data = { name: document.getElementById('tg-name').value, goal: Number(document.getElementById('tg-goal').value), deadline: document.getElementById('tg-date').value, style: document.getElementById('tg-style').value, freq: document.getElementById('tg-freq').value, stableVal: Number(document.getElementById('tg-stable-val').value) || 0 }; await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'targets'), { ...data, saved: 0 }); window.closeModals(); };
+        document.getElementById('form-debt').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const data = { name: document.getElementById('db-name').value, amount: Number(document.getElementById('db-amount').value), type: debtInputType, date: document.getElementById('db-date').value, status: 'belum', paid: 0 }; await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'debts'), data); window.closeModals(); };
 
-        function renderDebts() {
-            const list = document.getElementById('debt-list');
-            const filtered = debts.filter(d => d.type === debtTrackMode);
-            setUI('debt-summary-val', `Total Sisa: Rp ${filtered.filter(d => d.status === 'belum').reduce((a,b)=>a+(Number(b.amount)-Number(b.paid)),0).toLocaleString()}`);
-            if(list) list.innerHTML = filtered.map(d => {
-                const dl = d.date ? new Date(d.date) : new Date(), diff = Math.ceil((dl - new Date())/(1000*60*60*24)), perc = (Number(d.paid)/Number(d.amount))*100;
-                return `<div class="glass-card p-6 space-y-4 relative ${d.status === 'lunas' ? 'opacity-30' : ''}"><div class="flex justify-between items-start text-adaptive"><div class="flex gap-3"><div onclick="toggleDebtCheck('${d.id}')" class="w-6 h-6 rounded-lg border-2 border-white/20 flex items-center justify-center cursor-pointer">${d.status === 'lunas' ? '<i class="fas fa-check text-[10px] text-blue-500"></i>' : ''}</div><div><h4 class="font-black text-sm text-adaptive">${d.name}</h4><p class="text-[9px] font-bold ${diff < 0 ? 'text-rose-500' : 'text-emerald-500'} uppercase">${diff < 0 ? 'Telat '+Math.abs(diff)+' Hari' : 'Sisa '+diff+' Hari'}</p></div></div><div class="flex gap-2"><button onclick="editDebt('${d.id}')" class="text-blue-500 text-xs"><i class="fas fa-pen"></i></button><button onclick="deleteDebt('${d.id}')" class="text-rose-500 text-xs"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-1.5 rounded-full overflow-hidden shadow-inner"><div class="bg-amber-500 h-full" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-[10px] font-black opacity-60 text-adaptive"><span>Saldo: Rp ${Number(d.amount).toLocaleString()}</span><span>Lunas: ${Math.round(perc)}%</span></div><button onclick="openDebtPay('${d.id}')" class="w-full py-2.5 bg-white/5 hover:bg-blue-500 hover:text-white rounded-xl text-[9px] font-black uppercase text-adaptive transition-all">CICIL</button></div>`;
-            }).join('');
-        }
-        window.toggleDebtCheck = async (id) => { if(user) { const d = debts.find(x => x.id === id); const ns = d.status === 'lunas' ? 'belum' : 'lunas'; await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id), { status: ns, paid: ns === 'lunas' ? d.amount : 0 }); } };
-        window.deleteDebt = async (id) => { if(user) await deleteDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id)); };
-        window.editDebt = (id) => { const d = debts.find(x => x.id === id); if(d) { document.getElementById('edit-debt-id').value = id; document.getElementById('db-name').value = d.name; document.getElementById('db-amount').value = d.amount; document.getElementById('db-date').value = d.date; window.setDebtInputType(d.type); window.openModal('debt'); } };
-        document.getElementById('form-debt').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const id = document.getElementById('edit-debt-id').value, data = { name: document.getElementById('db-name').value, amount: Number(document.getElementById('db-amount').value), type: debtInputType, date: document.getElementById('db-date').value, status: 'belum' }; if(id) await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id), data); else await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'debts'), { ...data, paid: 0 }); window.closeModals(); };
-        window.openDebtPay = (id) => { const d = debts.find(x => x.id === id); if(d) { document.getElementById('debt-pay-id').value = id; setUI('debt-pay-info', d.name); setUI('debt-pay-remaining', `Sisa: Rp ${(Number(d.amount) - Number(d.paid)).toLocaleString()}`); window.openModal('debt-pay'); } };
-        document.getElementById('form-debt-pay').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const id = document.getElementById('debt-pay-id').value, amt = Number(document.getElementById('debt-pay-amount').value), d = debts.find(x => x.id === id); if(d && amt > 0) { const np = Number(d.paid) + amt; await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id), { paid: np, status: np >= Number(d.amount) ? 'lunas' : 'belum' }); await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'transactions'), { amount: amt, desc: `Bayar: ${d.name}`, type: d.type === 'hutang' ? 'expense' : 'income', category: 'Living', date: Timestamp.now() }); window.closeModals(); } };
-
-        function renderReport() {
-            const mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
-            const incD = new Array(12).fill(0), expD = new Array(12).fill(0);
-            transactions.forEach(t => { const m = t.date ? new Date(t.date.seconds * 1000).getMonth() : new Date().getMonth(); if(t.type === 'income') incD[m] += Number(t.amount); else expD[m] += Number(t.amount); });
-            const ctxY = document.getElementById('yearlyMainChart');
-            if(ctxY) { if(yearlyMainChart) yearlyMainChart.destroy(); yearlyMainChart = new Chart(ctxY.getContext('2d'), { type: 'bar', data: { labels: mNames, datasets: [{ label: 'Masuk', data: incD, backgroundColor: '#10b981', borderRadius: 8 }, { label: 'Keluar', data: expD, backgroundColor: '#f87171', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { display: false }, x: { grid: { display: false }, ticks: { color: document.documentElement.classList.contains('dark') ? '#cbd5e1' : '#475569', font: { weight: 'bold', size: 10 } } } }, plugins: { legend: { display: false } } } }); }
-            const selMonth = parseInt(document.getElementById('report-month-select').value);
-            setUI('rep-income-val', `Rp ${incD[selMonth].toLocaleString()}`);
-            setUI('rep-expense-val', `Rp ${expD[selMonth].toLocaleString()}`);
-            setUI('rep-savings-val', `Rp ${(incD[selMonth]-expD[selMonth]).toLocaleString()}`);
-            const fullList = document.getElementById('full-history-list');
-            if(fullList) { const monthTxs = transactions.filter(t => (t.date ? new Date(t.date.seconds * 1000).getMonth() : -1) === selMonth); fullList.innerHTML = monthTxs.reverse().map(t => `<div class="glass-card p-4 flex justify-between items-center text-adaptive"><div><p class="font-bold text-sm text-adaptive">${t.desc}</p><p class="text-[9px] opacity-60 uppercase font-black text-adaptive">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString() : '-'}</p></div><div class="text-right flex items-center gap-4"><p class="font-black ${t.type==='expense'?'text-rose-400':'text-emerald-400'}">${t.type==='expense'?'-':'+'} Rp ${Number(t.amount).toLocaleString()}</p><button onclick="deleteTx('${t.id}')" class="text-rose-500 text-xs p-2 hover:bg-rose-500/10 rounded-lg transition-all"><i class="fas fa-trash"></i></button></div></div>`).join('') || '<p class="text-center opacity-40 text-adaptive">Tidak ada data</p>'; }
-        }
-
-        document.getElementById('login-form').onsubmit = (e) => {
-            e.preventDefault();
-            const username = document.getElementById('login-username').value;
-            isLoggedIn = true;
-            document.getElementById('auth-screen').classList.add('hidden');
-            document.getElementById('app-shell').classList.remove('hidden-auth');
-            setUI('side-name', username);
-            setUI('profile-name-display', username);
-            updateAllUI();
-        };
-
+        // Initialize Everything
         initAuth().catch(console.error);
+
     </script>
 </body>
 </html>
