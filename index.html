@@ -97,6 +97,7 @@
             display: flex; align-items: center; gap: 1.25rem;
             padding: 1.25rem; border-radius: 20px;
             color: var(--text-muted); font-weight: 700; transition: all 0.3s ease;
+            cursor: pointer;
         }
         .nav-link.active, .nav-link:hover { background: rgba(59, 130, 246, 0.15); color: var(--primary-blue); }
 
@@ -107,6 +108,7 @@
             color: white; font-size: 24px;
             box-shadow: 0 10px 25px var(--accent-glow);
             transition: all 0.3s ease; border: 4px solid var(--sidebar-bg);
+            cursor: pointer;
         }
 
         .page-section { display: none; animation: slideUp 0.5s ease; }
@@ -164,7 +166,6 @@
                 </div>
                 <h1 class="text-4xl font-black tracking-tighter text-shadow-pro text-adaptive">FAN<span class="text-blue-500">Track</span></h1>
                 
-                <!-- Toggle Mode -->
                 <div class="flex justify-center gap-2 mt-4">
                     <button id="mode-login-btn" onclick="window.setAuthMode('login')" class="auth-toggle-btn active">MASUK</button>
                     <button id="mode-register-btn" onclick="window.setAuthMode('register')" class="auth-toggle-btn">DAFTAR</button>
@@ -259,8 +260,8 @@
                     <div class="flex justify-between items-center"><h1 class="text-4xl font-black tracking-tight text-shadow-pro text-adaptive">Utang Piutang</h1><button onclick="window.openModal('debt')" class="px-6 py-3 bg-amber-500 text-black rounded-xl font-black text-xs shadow-xl active:scale-95 transition-all uppercase">Tambah</button></div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-adaptive">
                         <div class="flex items-center gap-2 bg-black/10 p-2 rounded-[22px] border border-white/10 backdrop-blur-md">
-                            <button onclick="window.setDebtTrack('hutang')" id="tab-hutang" class="debt-tab flex-1 active-hutang font-black">UTANG</button>
-                            <button onclick="window.setDebtTrack('piutang')" id="tab-piutang" class="debt-tab flex-1 inactive font-black">PIUTANG</button>
+                            <button onclick="window.setDebtTrack('hutang')" id="tab-hutang" class="debt-tab flex-1 active-hutang">UTANG</button>
+                            <button onclick="window.setDebtTrack('piutang')" id="tab-piutang" class="debt-tab flex-1 inactive">PIUTANG</button>
                         </div>
                         <div class="glass-card p-4 flex items-center justify-center"><p id="debt-summary-val" class="text-xl font-black text-adaptive uppercase tracking-tighter">Total: Rp 0</p></div>
                     </div>
@@ -300,7 +301,6 @@
     <div id="modal-container" class="hidden fixed inset-0 modal-overlay flex items-center justify-center p-6 text-adaptive">
         <div class="absolute inset-0" onclick="window.closeModals()"></div>
         
-        <!-- Modal: Transaksi -->
         <div id="modal-tx" class="relative w-full max-w-lg glass-card bg-slate-900 p-10 space-y-6 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl">
             <h2 id="tx-modal-title" class="text-3xl font-black text-center text-adaptive">Input Kas</h2>
             <form id="form-tx" class="space-y-6">
@@ -313,7 +313,6 @@
             </form>
         </div>
 
-        <!-- Modal: Cicil Utang -->
         <div id="modal-debt-pay" class="relative w-full max-w-sm glass-card bg-slate-900 p-10 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl">
             <h2 class="text-xl font-black text-center text-rose-500 uppercase tracking-widest text-adaptive">Bayar Cicilan</h2>
             <div class="mt-4 p-4 bg-black/20 rounded-2xl text-center">
@@ -327,7 +326,6 @@
             </form>
         </div>
 
-        <!-- Modal: Tabung Custom -->
         <div id="modal-save-custom" class="relative w-full max-w-sm glass-card bg-slate-900 p-10 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl text-adaptive">
             <h2 class="text-xl font-black text-center text-blue-500 uppercase tracking-widest text-adaptive">Menabung</h2>
             <p id="save-custom-info" class="text-center text-[10px] font-bold opacity-60 mt-2 uppercase text-adaptive"></p>
@@ -384,7 +382,7 @@
 
         const setUI = (id, text) => { const el = document.getElementById(id); if(el) el.innerText = text; };
 
-        // --- Initialization ---
+        // --- Auth Initialization ---
         const initAuth = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -395,19 +393,28 @@
             }
         };
 
+        // UI State Switcher
+        const showDashboard = (displayName) => {
+            window.isLoggedIn = true;
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app-shell').classList.remove('hidden-auth');
+            setUI('side-name', displayName || 'Meowser');
+            setUI('profile-name-display', displayName || 'Meowser');
+            setupFirestoreListeners();
+        };
+
+        const showLogin = () => {
+            window.isLoggedIn = false;
+            document.getElementById('auth-screen').classList.remove('hidden');
+            document.getElementById('app-shell').classList.add('hidden-auth');
+        };
+
         onAuthStateChanged(auth, (u) => {
             user = u;
             if (user) {
-                window.isLoggedIn = true;
-                document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('app-shell').classList.remove('hidden-auth');
-                setUI('side-name', user.displayName || 'Meowser');
-                setUI('profile-name-display', user.displayName || 'Meowser');
-                setupFirestoreListeners();
+                showDashboard(user.displayName);
             } else {
-                window.isLoggedIn = false;
-                document.getElementById('auth-screen').classList.remove('hidden');
-                document.getElementById('app-shell').classList.add('hidden-auth');
+                showLogin();
             }
         });
 
@@ -478,22 +485,24 @@
         window.updateProfile = async () => { const n = document.getElementById('edit-name').value; if(n && user) { await firebaseUpdateProfile(user, { displayName: n }); setUI('side-name', n); setUI('profile-name-display', n); alert('Profil Berhasil Diperbarui'); } };
         window.logout = () => { auth.signOut().then(() => location.reload()); };
 
-        // --- Core Logics ---
+        // --- Auth Form Logic ---
         document.getElementById('auth-form').onsubmit = async (e) => {
             e.preventDefault();
             const username = document.getElementById('auth-username').value;
             const fullname = document.getElementById('auth-fullname').value;
             try {
-                await signInAnonymously(auth);
-                const currentUser = auth.currentUser;
+                // Di pratinjau Canvas, gunakan sign-in anonim agar tidak terbentur permission
+                const cred = await signInAnonymously(auth);
                 const nameToSet = (window.authMode === 'register' && fullname) ? fullname : username;
-                await firebaseUpdateProfile(currentUser, { displayName: nameToSet });
-                window.isLoggedIn = true;
+                await firebaseUpdateProfile(cred.user, { displayName: nameToSet });
+                // Transisi ditangani oleh onAuthStateChanged
             } catch (err) {
-                console.error("Auth Fail:", err);
+                console.error("Auth Error", err);
+                alert("Terjadi kesalahan teknis. Coba lagi.");
             }
         };
 
+        // --- Core UI Functions ---
         function renderHome() {
             const inc = transactions.filter(t => t.type === 'income').reduce((a,b) => a + Number(b.amount), 0);
             const exp = transactions.filter(t => t.type === 'expense').reduce((a,b) => a + Number(b.amount), 0);
@@ -528,7 +537,7 @@
             setUI('debt-summary-val', `Total: Rp ${filtered.filter(d => d.status === 'belum').reduce((a,b)=>a+(Number(b.amount)-Number(b.paid)),0).toLocaleString()}`);
             if(list) list.innerHTML = filtered.map(d => {
                 const dl = d.date ? new Date(d.date) : new Date(), diff = Math.ceil((dl - new Date())/(1000*60*60*24)), perc = (Number(d.paid)/Number(d.amount))*100;
-                return `<div class="glass-card p-6 space-y-4 relative ${d.status === 'lunas' ? 'opacity-30' : ''} text-adaptive"><div class="flex justify-between items-start text-adaptive"><div class="flex gap-3 text-adaptive"><div onclick="window.toggleDebtCheck('${d.id}')" class="w-6 h-6 rounded-lg border-2 border-white/20 flex items-center justify-center cursor-pointer">${d.status === 'lunas' ? '<i class="fas fa-check text-[10px] text-blue-500"></i>' : ''}</div><div><h4 class="font-black text-sm text-adaptive">${d.name}</h4><p class="text-[9px] font-bold ${diff < 0 ? 'text-rose-500' : 'text-emerald-500'} uppercase">${diff < 0 ? 'Telat '+Math.abs(diff)+' Hari' : 'Sisa '+diff+' Hari'}</p></div></div><div class="flex gap-2 text-adaptive"><button onclick="window.deleteDebt('${d.id}')" class="text-rose-500 text-xs"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-1.5 rounded-full overflow-hidden shadow-inner text-adaptive"><div class="bg-amber-500 h-full text-adaptive" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-[10px] font-black opacity-60 text-adaptive"><span>Saldo: Rp ${Number(d.amount).toLocaleString()}</span><span>Lunas: ${Math.round(perc)}%</span></div><button onclick="window.openDebtPay('${d.id}')" class="w-full py-2.5 bg-white/5 hover:bg-blue-500 hover:text-white rounded-xl text-[9px] font-black uppercase text-adaptive transition-all font-black">CICIL</button></div>`;
+                return `<div class="glass-card p-6 space-y-4 relative ${d.status === 'lunas' ? 'opacity-30' : ''} text-adaptive"><div class="flex justify-between items-start text-adaptive"><div class="flex gap-3 text-adaptive"><div onclick="window.toggleDebtCheck('${d.id}')" class="w-6 h-6 rounded-lg border-2 border-white/20 flex items-center justify-center cursor-pointer">${d.status === 'lunas' ? '<i class="fas fa-check text-blue-500"></i>' : ''}</div><div><h4 class="font-black text-sm text-adaptive">${d.name}</h4><p class="text-[9px] font-bold ${diff < 0 ? 'text-rose-500' : 'text-emerald-500'} uppercase">${diff < 0 ? 'Telat '+Math.abs(diff)+' Hari' : 'Sisa '+diff+' Hari'}</p></div></div><div class="flex gap-2 text-adaptive"><button onclick="window.deleteDebt('${d.id}')" class="text-rose-500 text-xs"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-1.5 rounded-full overflow-hidden shadow-inner text-adaptive"><div class="bg-amber-500 h-full text-adaptive" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-[10px] font-black opacity-60 text-adaptive"><span>Saldo: Rp ${Number(d.amount).toLocaleString()}</span><span>Lunas: ${Math.round(perc)}%</span></div><button onclick="window.openDebtPay('${d.id}')" class="w-full py-2.5 bg-white/5 hover:bg-blue-500 hover:text-white rounded-xl text-[9px] font-black uppercase text-adaptive transition-all font-black">CICIL</button></div>`;
             }).join('');
         }
 
