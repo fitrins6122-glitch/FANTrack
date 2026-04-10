@@ -174,7 +174,7 @@
         <main class="main-content min-h-screen">
             <div class="content-wrapper max-w-7xl mx-auto p-5 lg:p-12 pb-32 lg:pb-12">
                 
-                <!-- DASHBOARD -->
+                <!-- PAGE: DASHBOARD -->
                 <section id="page-home" class="page-section active space-y-8">
                     <div class="flex justify-between items-end mb-10">
                         <div><p class="text-blue-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-2 text-shadow-pro">Manager Pro</p><h2 class="text-4xl font-black tracking-tight text-adaptive text-shadow-pro">Dashboard</h2></div>
@@ -184,23 +184,20 @@
                         <div class="lg:col-span-2 premium-card p-10 flex flex-col justify-between min-h-[350px]">
                             <div><p class="text-xs font-bold uppercase opacity-90 tracking-widest text-white">Saldo Bersih</p><h2 id="balance-display" class="text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white">Rp 0</h2></div>
                             <div class="grid grid-cols-2 gap-10 pt-10 border-t border-white/20 text-white">
-                                <div><p class="text-[9px] font-bold opacity-80 uppercase text-white mb-1">Utang</p><p id="home-debt-val" class="text-xl font-black">Rp 0</p></div>
-                                <div class="text-right"><p class="text-[9px] font-bold opacity-80 uppercase text-white mb-1">Piutang</p><p id="home-receiv-val" class="text-xl font-black">Rp 0</p></div>
+                                <div><p class="text-[9px] font-bold opacity-80 uppercase mb-1">Utang</p><p id="home-debt-val" class="text-xl font-black text-white">Rp 0</p></div>
+                                <div class="text-right"><p class="text-[9px] font-bold opacity-80 uppercase text-white mb-1">Piutang</p><p id="home-receiv-val" class="text-xl font-black text-white">Rp 0</p></div>
                             </div>
                         </div>
                         <div class="glass-card p-10 flex flex-col items-center justify-center text-adaptive">
                             <canvas id="miniChart"></canvas>
                         </div>
                     </div>
-                    <div class="space-y-4 pt-6 text-adaptive">
-                        <h3 class="font-black text-xl px-2 text-shadow-pro">Aktivitas Terakhir</h3>
-                        <div id="home-tx-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-                    </div>
+                    <div class="space-y-4 pt-6 text-adaptive"><h3 class="font-black text-xl px-2 text-shadow-pro">Aktivitas Terakhir</h3><div id="home-tx-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div></div>
                 </section>
 
-                <!-- REPORT -->
+                <!-- PAGE: PELACAKAN -->
                 <section id="page-report" class="page-section space-y-10 text-adaptive">
-                    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 text-white">
                         <h1 class="text-4xl font-black tracking-tight text-shadow-pro text-adaptive">Pelacakan Tahunan</h1>
                         <div class="glass-card p-2 rounded-2xl flex items-center px-4">
                             <select id="report-month-select" onchange="window.renderReport()" class="bg-transparent text-sm font-bold outline-none cursor-pointer p-1">
@@ -213,41 +210,41 @@
                     </div>
                     <div class="glass-card p-10"><div class="w-full h-[400px]"><canvas id="yearlyMainChart"></canvas></div></div>
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-adaptive text-center">
-                        <div class="glass-card p-8 border-t-4 border-emerald-500"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest">Masuk</p><p id="rep-income-val" class="text-2xl font-black text-emerald-500 mt-1">Rp 0</p></div>
-                        <div class="glass-card p-8 border-t-4 border-rose-500"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest">Keluar</p><p id="rep-expense-val" class="text-2xl font-black text-rose-500 mt-1">Rp 0</p></div>
-                        <div class="glass-card p-8 border-t-4 border-blue-500"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest">Tabungan</p><p id="rep-savings-val" class="text-2xl font-black text-blue-500 mt-1">Rp 0</p></div>
+                        <div class="glass-card p-8 border-t-4 border-emerald-500 text-center text-adaptive"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Masuk</p><p id="rep-income-val" class="text-2xl font-black text-emerald-500 mt-1">Rp 0</p></div>
+                        <div class="glass-card p-8 border-t-4 border-rose-500 text-center text-adaptive"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Keluar</p><p id="rep-expense-val" class="text-2xl font-black text-rose-500 mt-1">Rp 0</p></div>
+                        <div class="glass-card p-8 border-t-4 border-blue-500 text-center text-adaptive"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Tabungan</p><p id="rep-savings-val" class="text-2xl font-black text-blue-500 mt-1">Rp 0</p></div>
                     </div>
-                    <div class="space-y-6 pt-10"><h3 class="font-black text-2xl px-2">Riwayat Detail</h3><div id="full-history-list" class="grid grid-cols-1 gap-4"></div></div>
+                    <div class="space-y-6 pt-10 text-adaptive"><h3 class="font-black text-2xl px-2">Riwayat Detail</h3><div id="full-history-list" class="grid grid-cols-1 gap-4 text-adaptive"></div></div>
                 </section>
 
-                <!-- DEBT -->
+                <!-- PAGE: UTANG -->
                 <section id="page-debt" class="page-section space-y-10 text-adaptive">
                     <div class="flex justify-between items-center"><h1 class="text-4xl font-black tracking-tight text-shadow-pro text-adaptive">Utang Piutang</h1><button onclick="window.openModal('debt')" class="px-6 py-3 bg-amber-500 text-black rounded-xl font-black text-xs shadow-xl active:scale-95 transition-all uppercase">Tambah</button></div>
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-adaptive">
                         <div class="flex items-center gap-2 bg-black/10 p-2 rounded-[22px] border border-white/10 backdrop-blur-md">
-                            <button onclick="window.setDebtTrack('hutang')" id="tab-hutang" class="debt-tab flex-1 active-hutang">UTANG</button>
-                            <button onclick="window.setDebtTrack('piutang')" id="tab-piutang" class="debt-tab flex-1 inactive">PIUTANG</button>
+                            <button onclick="window.setDebtTrack('hutang')" id="tab-hutang" class="debt-tab flex-1 active-hutang font-black">UTANG SAYA</button>
+                            <button onclick="window.setDebtTrack('piutang')" id="tab-piutang" class="debt-tab flex-1 inactive font-black">PIUTANG SAYA</button>
                         </div>
-                        <div class="glass-card p-4 flex items-center justify-center"><p id="debt-summary-val" class="text-xl font-black text-adaptive uppercase tracking-tighter">Total: Rp 0</p></div>
+                        <div class="glass-card p-4 flex items-center justify-center"><p id="debt-summary-val" class="text-xl font-black text-adaptive uppercase tracking-tighter">Total Aktif: Rp 0</p></div>
                     </div>
-                    <div id="debt-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    <div id="debt-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-adaptive"></div>
                 </section>
 
-                <!-- TARGET -->
+                <!-- PAGE: SAVING GOALS -->
                 <section id="page-target" class="page-section space-y-8 text-adaptive">
                     <div class="flex justify-between items-center"><h1 class="text-4xl font-black text-shadow-pro text-adaptive">Saving Goals</h1><button onclick="window.openModal('target')" class="w-12 h-12 glass-card rounded-2xl flex items-center justify-center text-blue-500 shadow-xl active:scale-95 transition-all"><i class="fas fa-plus"></i></button></div>
-                    <div id="target-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    <div id="target-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-adaptive"></div>
                 </section>
 
-                <!-- PROFILE -->
+                <!-- PAGE: PROFILE -->
                 <section id="page-profile" class="page-section max-w-4xl mx-auto space-y-10 pt-16 text-adaptive">
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-adaptive">
                         <div class="lg:col-span-1 glass-card p-10 text-center space-y-6 text-adaptive">
                             <div class="w-32 h-32 mx-auto bg-slate-800 rounded-[40px] border-4 border-blue-500 shadow-2xl flex items-center justify-center text-4xl font-black text-white">M</div>
                             <div><h2 class="text-3xl font-black tracking-tight text-adaptive" id="profile-name-display">Meowser</h2><p class="text-blue-500 font-bold uppercase tracking-[0.3em] text-[10px]">FANTrack Member</p></div>
                         </div>
-                        <div class="lg:col-span-2 space-y-6">
-                            <div class="glass-card p-10 space-y-8"><h3 class="font-black text-xl text-adaptive">Profil Akun</h3><input type="text" id="edit-name" class="w-full p-4 rounded-xl outline-none input-adaptive" placeholder="Nama Baru"><button onclick="window.updateProfile()" class="px-8 py-4 premium-card font-black uppercase text-xs w-full shadow-lg text-white">Simpan</button></div>
+                        <div class="lg:col-span-2 space-y-6 text-adaptive">
+                            <div class="glass-card p-10 space-y-8 text-adaptive"><h3 class="font-black text-xl">Profil Akun</h3><input type="text" id="edit-name" class="w-full p-4 rounded-xl outline-none input-adaptive" placeholder="Nama Baru"><button onclick="window.updateProfile()" class="px-8 py-4 premium-card font-black uppercase text-xs w-full shadow-lg text-white">Simpan</button></div>
                         </div>
                     </div>
                 </section>
@@ -280,7 +277,6 @@
             </form>
         </div>
 
-        <!-- Modal Cicil Utang -->
         <div id="modal-debt-pay" class="relative w-full max-w-sm glass-card bg-slate-900 p-10 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl">
             <h2 class="text-xl font-black text-center text-rose-500 uppercase tracking-widest">Bayar Cicilan</h2>
             <div class="mt-4 p-4 bg-black/20 rounded-2xl text-center">
@@ -295,7 +291,7 @@
         </div>
 
         <!-- Modal: Tabung Custom -->
-        <div id="modal-save-custom" class="relative w-full max-w-sm glass-card bg-slate-900 p-10 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl">
+        <div id="modal-save-custom" class="relative w-full max-w-sm glass-card bg-slate-900 p-10 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl text-adaptive">
             <h2 class="text-xl font-black text-center text-blue-500 uppercase tracking-widest">Menabung</h2>
             <p id="save-custom-info" class="text-center text-[10px] font-bold opacity-60 mt-2 uppercase"></p>
             <form id="form-save-custom" class="space-y-6 mt-6">
@@ -305,22 +301,20 @@
             </form>
         </div>
 
-        <!-- Modal Target -->
-        <div id="modal-target" class="relative w-full max-w-lg glass-card bg-slate-900 p-10 space-y-6 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl">
-            <h2 id="target-modal-title" class="text-3xl font-black text-center text-blue-500 uppercase">Saving Goal</h2>
+        <div id="modal-target" class="relative w-full max-w-lg glass-card bg-slate-900 p-10 space-y-6 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl text-adaptive">
+            <h2 id="target-modal-title" class="text-3xl font-black text-center text-blue-500 uppercase text-adaptive">Saving Goal</h2>
             <form id="form-target" class="space-y-4">
                 <input type="hidden" id="edit-target-id">
                 <input type="text" id="tg-name" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold text-center" placeholder="Nama Rencana" required>
-                <div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2">Target Akhir (Rp)</label><input type="number" id="tg-goal" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold" placeholder="0" required></div>
-                <div class="grid grid-cols-2 gap-4"><div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2">Deadline</label><input type="date" id="tg-date" class="w-full p-4 rounded-xl outline-none input-adaptive text-sm font-bold" required></div><div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2">Frekuensi</label><select id="tg-freq" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold"><option value="daily">Harian</option><option value="weekly">Mingguan</option><option value="monthly">Bulanan</option></select></div></div>
-                <div class="grid grid-cols-2 gap-4"><div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2">Mode</label><select id="tg-style" onchange="window.toggleStableInput()" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold"><option value="stabil">Stabil</option><option value="fluct">Fluktuatif</option></select></div><div class="space-y-1" id="stable-nominal-container"><label class="text-[10px] font-black opacity-40 uppercase ml-2">Nominal Rutin</label><input type="number" id="tg-stable-val" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold" placeholder="0"></div></div>
+                <div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Target Akhir (Rp)</label><input type="number" id="tg-goal" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold" placeholder="0" required></div>
+                <div class="grid grid-cols-2 gap-4"><div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Deadline</label><input type="date" id="tg-date" class="w-full p-4 rounded-xl outline-none input-adaptive text-sm font-bold" required></div><div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Frekuensi</label><select id="tg-freq" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold"><option value="daily">Harian</option><option value="weekly">Mingguan</option><option value="monthly">Bulanan</option></select></div></div>
+                <div class="grid grid-cols-2 gap-4"><div class="space-y-1"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Mode</label><select id="tg-style" onchange="window.toggleStableInput()" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold"><option value="stabil">Stabil</option><option value="fluct">Fluktuatif</option></select></div><div class="space-y-1" id="stable-nominal-container"><label class="text-[10px] font-black opacity-40 uppercase ml-2 text-adaptive">Nominal Rutin</label><input type="number" id="tg-stable-val" class="w-full p-4 rounded-xl outline-none input-adaptive font-bold" placeholder="0"></div></div>
                 <button type="submit" class="w-full py-5 premium-card font-black uppercase text-white shadow-xl mt-4">Aktifkan Target</button>
             </form>
         </div>
 
-        <!-- Modal Utang -->
-        <div id="modal-debt" class="relative w-full max-w-lg glass-card bg-slate-900 p-10 space-y-6 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl">
-            <h2 id="debt-modal-title" class="text-3xl font-black text-center text-amber-500 uppercase">Utang Piutang</h2>
+        <div id="modal-debt" class="relative w-full max-w-lg glass-card bg-slate-900 p-10 space-y-6 hidden flex-col border border-white/10 dark:bg-slate-900 light:bg-white/95 text-adaptive shadow-2xl text-adaptive">
+            <h2 id="debt-modal-title" class="text-3xl font-black text-center text-amber-500 uppercase text-adaptive">Utang Piutang</h2>
             <form id="form-debt" class="space-y-4">
                 <input type="hidden" id="edit-debt-id">
                 <div class="flex bg-slate-800/50 p-2 rounded-2xl dark:bg-slate-800/50 light:bg-slate-200"><button type="button" onclick="window.setDebtInputType('hutang')" id="btn-db-hutang" class="flex-1 py-4 text-[10px] font-black rounded-xl bg-slate-700 text-white">UTANG</button><button type="button" onclick="window.setDebtInputType('piutang')" id="btn-db-piutang" class="flex-1 py-4 text-[10px] font-black rounded-xl text-slate-400">PIUTANG</button></div>
@@ -334,14 +328,32 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, updateProfile as firebaseUpdateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot, Timestamp, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- FIREBASE CORE (MANDATORY WINDOW ASSIGNMENTS) ---
-        const firebaseConfig = JSON.parse(__firebase_config);
+        // --- FIREBASE CORE CONFIG (FALLBACK FOR VERCEL) ---
+        let firebaseConfig;
+        try {
+            // Cek apakah variabel sistem Gemini ada
+            firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+            if (!firebaseConfig.apiKey) throw new Error();
+        } catch (e) {
+            // Fallback: Gunakan konfigurasi manual jika di Vercel/lingkungan luar Gemini
+            firebaseConfig = {
+                apiKey: "AIzaSyCdw8MIcUPlbMWzXHZy0s6eaB2bNdEa1Cw",
+                authDomain: "fantrack-1229a.firebaseapp.com",
+                projectId: "fantrack-1229a",
+                storageBucket: "fantrack-1229a.firebasestorage.app",
+                messagingSenderId: "936323019103",
+                appId: "1:936323019103:web:40a88b8a2cdae63c2946ea"
+            };
+        }
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'fantrack-pro';
+        
+        // Cek appId sistem atau default
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'fantrack-pro-vercel';
 
         let user = null;
         let transactions = [], targets = [], debts = [];
@@ -350,11 +362,11 @@
 
         const setUI = (id, text) => { const el = document.getElementById(id); if(el) el.innerText = text; };
 
-        // --- DEFINE WINDOW GLOBALS FIRST TO PREVENT REFERENCE ERROR ---
+        // --- DEFINE WINDOW GLOBALS ---
         window.navigate = (p) => {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById(`page-${p}`);
-            if(target) target.classList.add('active');
+            const pg = document.getElementById(`page-${p}`);
+            if(pg) pg.classList.add('active');
             document.querySelectorAll('.nav-link, .bottom-nav button').forEach(n => {
                 const isActive = n.id === `side-${p}` || n.id === `nav-${p}`;
                 n.classList.toggle('active', isActive);
@@ -397,8 +409,10 @@
 
         window.setTxType = (t) => {
             txType = t;
-            document.getElementById('btn-exp').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'expense' ? 'bg-slate-700 text-white' : 'text-slate-400'}`;
-            document.getElementById('btn-inc').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'income' ? 'bg-slate-700 text-white' : 'text-slate-400'}`;
+            const btnExp = document.getElementById('btn-exp');
+            const btnInc = document.getElementById('btn-inc');
+            if(btnExp) btnExp.className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'expense' ? 'bg-slate-700 text-white' : 'text-slate-400'}`;
+            if(btnInc) btnInc.className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'income' ? 'bg-slate-700 text-white' : 'text-slate-400'}`;
         };
 
         window.setTxCategory = (c) => {
@@ -410,14 +424,18 @@
 
         window.setDebtInputType = (t) => {
             debtInputType = t;
-            document.getElementById('btn-db-hutang').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'hutang' ? 'bg-slate-700 text-white' : 'text-slate-400'}`;
-            document.getElementById('btn-db-piutang').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'piutang' ? 'bg-slate-700 text-white' : 'text-slate-400'}`;
+            const dbHutang = document.getElementById('btn-db-hutang');
+            const dbPiutang = document.getElementById('btn-db-piutang');
+            if(dbHutang) dbHutang.className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'hutang' ? 'bg-slate-700 text-white' : 'text-slate-400'}`;
+            if(dbPiutang) dbPiutang.className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'piutang' ? 'bg-slate-700 text-white' : 'text-slate-400'}`;
         };
 
         window.setDebtTrack = (m) => {
             debtTrackMode = m;
-            document.getElementById('tab-hutang').className = `debt-tab flex-1 ${m === 'hutang' ? 'active-hutang' : 'inactive'}`;
-            document.getElementById('tab-piutang').className = `debt-tab flex-1 ${m === 'piutang' ? 'active-piutang' : 'inactive'}`;
+            const tabH = document.getElementById('tab-hutang');
+            const tabP = document.getElementById('tab-piutang');
+            if(tabH) tabH.className = `debt-tab flex-1 ${m === 'hutang' ? 'active-hutang' : 'inactive'}`;
+            if(tabP) tabP.className = `debt-tab flex-1 ${m === 'piutang' ? 'active-piutang' : 'inactive'}`;
             renderDebts();
         };
 
@@ -430,7 +448,7 @@
             }
         };
 
-        // --- AUTH & FIRESTORE LOGIC ---
+        // --- AUTH LOGIC ---
         const startApp = async () => {
             try {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
@@ -439,20 +457,17 @@
                     await signInAnonymously(auth);
                 }
             } catch (err) {
-                console.error("Auth Fail:", err);
-                await signInAnonymously(auth);
+                console.warn("Auth Fallback...");
+                await signInAnonymously(auth).catch(console.error);
             }
         };
 
         onAuthStateChanged(auth, (u) => {
             if (u) {
                 user = u;
-                window.isLoggedIn = true;
-                const shell = document.getElementById('app-shell');
-                if(shell) shell.classList.remove('hidden');
+                setupFirestoreListeners();
                 setUI('side-name', user.displayName || 'Meowser');
                 setUI('profile-name-display', user.displayName || 'Meowser');
-                setupFirestoreListeners();
             }
         });
 
@@ -460,27 +475,20 @@
             if (!user) return;
             const path = ['artifacts', appId, 'users', user.uid];
             
-            // Guards for Snapshot Errors
-            const errHandler = (err) => {
-                if(err.code === 'permission-denied') {
-                    console.warn("Firestore Rules are blocking access. Please check rules.");
-                }
-            };
-
             onSnapshot(collection(db, ...path, 'transactions'), (snap) => {
                 transactions = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 updateAllUI();
-            }, errHandler);
+            }, (e) => console.error("Firestore TX Error:", e));
 
             onSnapshot(collection(db, ...path, 'targets'), (snap) => {
                 targets = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 updateAllUI();
-            }, errHandler);
+            }, (e) => console.error("Firestore TG Error:", e));
 
             onSnapshot(collection(db, ...path, 'debts'), (snap) => {
                 debts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                 updateAllUI();
-            }, errHandler);
+            }, (e) => console.error("Firestore DB Error:", e));
         };
 
         const updateAllUI = () => { 
@@ -564,14 +572,14 @@
             }
         };
 
-        // --- FORM SUBMITS ---
+        // --- EVENT HANDLERS ---
         document.getElementById('form-tx').onsubmit = async (e) => {
             e.preventDefault();
             if(!user) return;
             const id = document.getElementById('edit-tx-id').value;
             const amt = Number(document.getElementById('tx-amount').value);
             const desc = document.getElementById('tx-desc').value;
-            const data = { amount: amt, desc: desc || 'Transaksi', type: txType, category: txCategory, date: Timestamp.now() };
+            const data = { amount: amt, desc, type: txType, category: txCategory, date: Timestamp.now() };
             if(id) await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'transactions', id), data);
             else await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'transactions'), data);
             window.closeModals();
@@ -659,7 +667,7 @@
             setUI('debt-summary-val', `Total: Rp ${filtered.filter(d => d.status === 'belum').reduce((a,b)=>a+(Number(b.amount)-Number(b.paid)),0).toLocaleString()}`);
             if(list) list.innerHTML = filtered.map(d => {
                 const dl = d.date ? new Date(d.date) : new Date(), diff = Math.ceil((dl - new Date())/(1000*60*60*24)), perc = (Number(d.paid)/Number(d.amount))*100;
-                return `<div class="glass-card p-6 space-y-4 relative ${d.status === 'lunas' ? 'opacity-30' : ''} text-adaptive"><div class="flex justify-between items-start text-adaptive"><div class="flex gap-3 text-adaptive"><div onclick="window.toggleDebtCheck('${d.id}')" class="w-6 h-6 rounded-lg border-2 border-white/20 flex items-center justify-center cursor-pointer">${d.status === 'lunas' ? '✔' : ''}</div><div><h4 class="font-black text-sm text-adaptive">${d.name}</h4><p class="text-[9px] font-bold ${diff < 0 ? 'text-rose-500' : 'text-emerald-500'} uppercase">${diff < 0 ? 'Telat '+Math.abs(diff)+' Hari' : 'Sisa '+diff+' Hari'}</p></div></div><div class="flex gap-2 text-adaptive"><button onclick="window.editDebt('${d.id}')" class="text-blue-500 text-xs p-1"><i class="fas fa-pen"></i></button><button onclick="window.deleteDebt('${d.id}')" class="text-rose-500 text-xs p-1"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-1.5 rounded-full overflow-hidden shadow-inner text-adaptive"><div class="bg-amber-500 h-full text-adaptive" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-[10px] font-black opacity-60 text-adaptive"><span>Saldo: Rp ${Number(d.amount).toLocaleString()}</span><span>Lunas: ${Math.round(perc)}%</span></div><button onclick="window.openDebtPay('${d.id}')" class="w-full py-2.5 bg-white/5 hover:bg-blue-500 hover:text-white rounded-xl text-[9px] font-black uppercase text-adaptive transition-all font-black">CICIL</button></div>`;
+                return `<div class="glass-card p-6 space-y-4 relative ${d.status === 'lunas' ? 'opacity-30' : ''} text-adaptive"><div class="flex justify-between items-start text-adaptive"><div class="flex gap-3 text-adaptive"><div onclick="window.toggleDebtCheck('${d.id}')" class="w-6 h-6 rounded-lg border-2 border-white/20 flex items-center justify-center cursor-pointer text-blue-500 font-bold">${d.status === 'lunas' ? '✔' : ''}</div><div><h4 class="font-black text-sm text-adaptive">${d.name}</h4><p class="text-[9px] font-bold ${diff < 0 ? 'text-rose-500' : 'text-emerald-500'} uppercase">${diff < 0 ? 'Telat '+Math.abs(diff)+' Hari' : 'Sisa '+diff+' Hari'}</p></div></div><div class="flex gap-2 text-adaptive"><button onclick="window.editDebt('${d.id}')" class="text-blue-500 text-xs p-1"><i class="fas fa-pen"></i></button><button onclick="window.deleteDebt('${d.id}')" class="text-rose-500 text-xs p-1"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-1.5 rounded-full overflow-hidden shadow-inner text-adaptive"><div class="bg-amber-500 h-full text-adaptive" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-[10px] font-black opacity-60 text-adaptive"><span>Saldo: Rp ${Number(d.amount).toLocaleString()}</span><span>Lunas: ${Math.round(perc)}%</span></div><button onclick="window.openDebtPay('${d.id}')" class="w-full py-2.5 bg-white/5 hover:bg-blue-500 hover:text-white rounded-xl text-[9px] font-black uppercase text-adaptive transition-all font-black">CICIL</button></div>`;
             }).join('');
         }
 
