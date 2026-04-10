@@ -11,9 +11,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         
         :root {
-            --bg-overlay: rgba(0, 0, 0, 0.45);
+            --bg-overlay: rgba(0, 0, 0, 0.5);
             --bg-img: url('https://res.cloudinary.com/dfbkph06k/image/upload/v1775806359/art-artistic-artwork-creepy-wallpaper-preview_a4yjku.jpg');
-            --sidebar-bg: rgba(10, 15, 30, 0.85);
+            --sidebar-bg: rgba(10, 15, 30, 0.9);
             --card-glass: rgba(255, 255, 255, 0.05);
             --input-bg: rgba(0, 0, 0, 0.4);
             --text-main: #f8fafc;
@@ -25,11 +25,11 @@
         }
 
         .light {
-            --bg-overlay: rgba(255, 255, 255, 0.25);
+            --bg-overlay: rgba(255, 255, 255, 0.3);
             --bg-img: url('https://res.cloudinary.com/dfbkph06k/image/upload/v1775796694/WhatsApp_Image_2026-04-10_at_11.50.49_k8q6wr.jpg');
-            --sidebar-bg: rgba(255, 255, 255, 0.95);
-            --card-glass: rgba(255, 255, 255, 0.8);
-            --input-bg: rgba(255, 255, 255, 0.9);
+            --sidebar-bg: rgba(255, 255, 255, 0.98);
+            --card-glass: rgba(255, 255, 255, 0.9);
+            --input-bg: rgba(255, 255, 255, 0.95);
             --text-main: #0f172a;
             --text-muted: #475569;
             --primary-blue: #2563eb;
@@ -84,12 +84,10 @@
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .glass-card:hover { border-color: var(--primary-blue); transform: translateY(-2px); }
-
         .premium-card {
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.9) 0%, rgba(30, 64, 175, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.95) 0%, rgba(30, 64, 175, 0.95) 100%);
             border-radius: 35px; position: relative; overflow: hidden;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
             color: white !important;
         }
 
@@ -116,13 +114,13 @@
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .modal-overlay { background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(8px); z-index: 100; }
+        .modal-overlay { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); z-index: 100; }
         
         .input-adaptive {
             background-color: var(--input-bg);
             color: var(--text-main);
             border: 1px solid var(--border-glass);
-            font-weight: 600;
+            font-weight: 700;
         }
         .input-adaptive:focus { border-color: var(--primary-blue); outline: none; }
 
@@ -130,20 +128,11 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
 
-        .debt-tab {
-            padding: 0.75rem 1.5rem; border-radius: 18px; font-size: 0.75rem; font-weight: 800;
-            transition: all 0.3s ease; cursor: pointer;
-        }
-        .active-hutang { background: rgba(244, 63, 94, 0.2); color: #fb7185; }
-        .active-piutang { background: rgba(16, 185, 129, 0.2); color: #34d399; }
-        
-        select option { background-color: #1e293b; color: white; }
-
         .auth-toggle-btn {
             background: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 12px;
-            font-size: 0.7rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
             font-weight: 800;
             color: var(--text-muted);
             transition: all 0.3s ease;
@@ -152,12 +141,13 @@
         .auth-toggle-btn.active {
             background: var(--primary-blue);
             color: white;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
         }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <!-- SCREEN: AUTH (LOGIN & DAFTAR) -->
+    <!-- SCREEN: AUTHENTICATION -->
     <div id="auth-screen" class="fixed inset-0 z-[100] flex items-center justify-center p-6">
         <div class="glass-card max-w-md w-full p-10 space-y-8 shadow-2xl border border-white/20">
             <div class="text-center space-y-4">
@@ -166,7 +156,7 @@
                 </div>
                 <h1 class="text-4xl font-black tracking-tighter text-shadow-pro text-adaptive">FAN<span class="text-blue-500">Track</span></h1>
                 
-                <div class="flex justify-center gap-2 mt-4">
+                <div class="flex justify-center gap-2 mt-6">
                     <button id="mode-login-btn" onclick="window.setAuthMode('login')" class="auth-toggle-btn active">MASUK</button>
                     <button id="mode-register-btn" onclick="window.setAuthMode('register')" class="auth-toggle-btn">DAFTAR</button>
                 </div>
@@ -181,7 +171,7 @@
                     <input type="password" id="auth-pass" class="w-full bg-black/30 p-5 rounded-2xl border border-white/10 outline-none text-white text-center font-bold" placeholder="Password" required>
                 </div>
                 <button type="submit" id="auth-submit-btn" class="w-full py-5 premium-card font-black uppercase tracking-widest text-white shadow-xl active:scale-95 transition-all">MASUK SESI</button>
-                <p id="auth-msg" class="text-center text-[10px] font-bold opacity-60 uppercase tracking-widest text-adaptive">Gunakan akun demo Anda</p>
+                <p id="auth-msg" class="text-center text-[10px] font-bold opacity-60 uppercase tracking-widest text-adaptive">Akses alat finansial Ultimate Anda</p>
             </form>
         </div>
     </div>
@@ -201,11 +191,11 @@
                 <button onclick="window.navigate('target')" id="side-target" class="nav-link w-full">Target Nabung</button>
                 <button onclick="window.navigate('debt')" id="side-debt" class="nav-link w-full">Hutang Piutang</button>
             </nav>
-            <div class="mt-auto pt-8 border-t border-white/10 space-y-4">
+            <div class="mt-auto pt-8 border-t border-white/10 space-y-4 text-center">
                 <div onclick="window.toggleTheme()" class="theme-toggle mx-auto"><i class="fas fa-moon" id="theme-icon"></i></div>
                 <div onclick="window.navigate('profile')" class="flex items-center gap-4 w-full p-3 hover:bg-white/5 rounded-2xl cursor-pointer">
                     <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Felix" id="side-avatar" class="w-11 h-11 bg-slate-800 rounded-xl shadow-lg">
-                    <div><p class="text-sm font-extrabold text-adaptive" id="side-name">User</p><p class="text-[10px] text-blue-500 font-bold uppercase tracking-widest">PREMIUM</p></div>
+                    <div class="text-left"><p class="text-sm font-extrabold text-adaptive" id="side-name">User</p><p class="text-[10px] text-blue-500 font-bold uppercase">PREMIUM</p></div>
                 </div>
             </div>
         </aside>
@@ -213,14 +203,15 @@
         <main class="main-content min-h-screen">
             <div class="content-wrapper max-w-7xl mx-auto p-5 lg:p-12 pb-32 lg:pb-12">
                 
+                <!-- PAGE: DASHBOARD -->
                 <section id="page-home" class="page-section active space-y-8">
                     <div class="flex justify-between items-end mb-10">
-                        <div><p class="text-blue-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-2 text-shadow-pro">Financial Manager</p><h2 class="text-4xl font-black tracking-tight text-adaptive text-shadow-pro">Dashboard</h2></div>
+                        <div><p class="text-blue-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-2 text-shadow-pro">Manager Pro</p><h2 class="text-4xl font-black tracking-tight text-adaptive text-shadow-pro">Dashboard</h2></div>
                         <button onclick="window.openModal('tx')" class="px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-[22px] font-black text-sm text-white shadow-xl transition-all active:scale-95">CATAT DATA</button>
                     </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-adaptive">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div class="lg:col-span-2 premium-card p-10 flex flex-col justify-between min-h-[350px]">
-                            <div><p class="text-xs font-bold uppercase opacity-90 tracking-widest">Saldo Bersih</p><h2 id="balance-display" class="text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white">Rp 0</h2></div>
+                            <div><p class="text-xs font-bold uppercase opacity-90 tracking-widest text-white">Saldo Bersih</p><h2 id="balance-display" class="text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white">Rp 0</h2></div>
                             <div class="grid grid-cols-2 gap-10 pt-10 border-t border-white/20">
                                 <div><p class="text-[9px] font-bold opacity-80 uppercase text-white mb-1">Utang</p><p id="home-debt-val" class="text-xl font-black text-white">Rp 0</p></div>
                                 <div class="text-right"><p class="text-[9px] font-bold opacity-80 uppercase text-white mb-1">Piutang</p><p id="home-receiv-val" class="text-xl font-black text-white">Rp 0</p></div>
@@ -228,12 +219,12 @@
                         </div>
                         <div class="glass-card p-10 flex flex-col items-center justify-center text-adaptive">
                             <canvas id="miniChart"></canvas>
-                            <p class="text-[10px] font-black opacity-40 uppercase tracking-[0.3em] mt-4 text-center">Analisis Arus</p>
                         </div>
                     </div>
                     <div class="space-y-4 pt-6 text-adaptive"><h3 class="font-black text-xl px-2 text-shadow-pro">Aktivitas Terakhir</h3><div id="home-tx-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div></div>
                 </section>
 
+                <!-- PAGE: PELACAKAN -->
                 <section id="page-report" class="page-section space-y-10 text-adaptive">
                     <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
                         <h1 class="text-4xl font-black tracking-tight text-shadow-pro text-adaptive">Pelacakan Tahunan</h1>
@@ -248,33 +239,36 @@
                         </div>
                     </div>
                     <div class="glass-card p-10"><div class="w-full h-[400px]"><canvas id="yearlyMainChart"></canvas></div></div>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 text-adaptive">
-                        <div class="glass-card p-8 border-t-4 border-emerald-500 text-center text-adaptive"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Masuk</p><p id="rep-income-val" class="text-2xl font-black text-emerald-500 mt-1">Rp 0</p></div>
-                        <div class="glass-card p-8 border-t-4 border-rose-500 text-center text-adaptive"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Keluar</p><p id="rep-expense-val" class="text-2xl font-black text-rose-500 mt-1">Rp 0</p></div>
-                        <div class="glass-card p-8 border-t-4 border-blue-500 text-center text-adaptive"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Tabungan</p><p id="rep-savings-val" class="text-2xl font-black text-blue-500 mt-1">Rp 0</p></div>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="glass-card p-8 border-t-4 border-emerald-500 text-center"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Masuk</p><p id="rep-income-val" class="text-2xl font-black text-emerald-500 mt-1">Rp 0</p></div>
+                        <div class="glass-card p-8 border-t-4 border-rose-500 text-center"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Keluar</p><p id="rep-expense-val" class="text-2xl font-black text-rose-500 mt-1">Rp 0</p></div>
+                        <div class="glass-card p-8 border-t-4 border-blue-500 text-center"><p class="text-[10px] font-black opacity-70 uppercase tracking-widest text-adaptive">Tabungan</p><p id="rep-savings-val" class="text-2xl font-black text-blue-500 mt-1">Rp 0</p></div>
                     </div>
-                    <div class="space-y-6 pt-10 text-adaptive"><h3 class="font-black text-2xl px-2">Riwayat Detail</h3><div id="full-history-list" class="grid grid-cols-1 gap-4 text-adaptive"></div></div>
+                    <div class="space-y-6 pt-10"><h3 class="font-black text-2xl px-2">Riwayat Detail</h3><div id="full-history-list" class="grid grid-cols-1 gap-4"></div></div>
                 </section>
 
+                <!-- PAGE: UTANG -->
                 <section id="page-debt" class="page-section space-y-10 text-adaptive">
                     <div class="flex justify-between items-center"><h1 class="text-4xl font-black tracking-tight text-shadow-pro text-adaptive">Utang Piutang</h1><button onclick="window.openModal('debt')" class="px-6 py-3 bg-amber-500 text-black rounded-xl font-black text-xs shadow-xl active:scale-95 transition-all uppercase">Tambah</button></div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-adaptive">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div class="flex items-center gap-2 bg-black/10 p-2 rounded-[22px] border border-white/10 backdrop-blur-md">
                             <button onclick="window.setDebtTrack('hutang')" id="tab-hutang" class="debt-tab flex-1 active-hutang">UTANG</button>
                             <button onclick="window.setDebtTrack('piutang')" id="tab-piutang" class="debt-tab flex-1 inactive">PIUTANG</button>
                         </div>
-                        <div class="glass-card p-4 flex items-center justify-center"><p id="debt-summary-val" class="text-xl font-black text-adaptive uppercase tracking-tighter">Total: Rp 0</p></div>
+                        <div class="glass-card p-4 flex items-center justify-center"><p id="debt-summary-val" class="text-xl font-black text-adaptive uppercase tracking-tighter">Total Aktif: Rp 0</p></div>
                     </div>
-                    <div id="debt-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-adaptive"></div>
+                    <div id="debt-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 </section>
 
+                <!-- PAGE: SAVING GOALS -->
                 <section id="page-target" class="page-section space-y-8 text-adaptive">
                     <div class="flex justify-between items-center"><h1 class="text-4xl font-black text-shadow-pro text-adaptive">Saving Goals</h1><button onclick="window.openModal('target')" class="w-12 h-12 glass-card rounded-2xl flex items-center justify-center text-blue-500 shadow-xl active:scale-95 transition-all"><i class="fas fa-plus text-white"></i></button></div>
-                    <div id="target-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-adaptive"></div>
+                    <div id="target-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 </section>
 
+                <!-- PAGE: PROFILE -->
                 <section id="page-profile" class="page-section max-w-4xl mx-auto space-y-10 pt-16 text-adaptive">
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-adaptive">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div class="lg:col-span-1 glass-card p-10 text-center space-y-6">
                             <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Felix" id="profile-avatar" class="w-32 h-32 mx-auto bg-slate-800 rounded-[40px] border-4 border-blue-500 shadow-2xl">
                             <div><h2 class="text-3xl font-black tracking-tight text-adaptive" id="profile-name-display">User</h2><p class="text-blue-500 font-bold uppercase tracking-[0.3em] text-[10px]">FANTrack Member</p></div>
@@ -307,7 +301,7 @@
                 <input type="hidden" id="edit-tx-id">
                 <div class="flex bg-slate-800/50 p-2 rounded-2xl dark:bg-slate-800/50 light:bg-slate-200"><button type="button" onclick="window.setTxType('expense')" id="btn-exp" class="flex-1 py-4 text-[10px] font-black rounded-xl bg-slate-700 text-white">KELUAR</button><button type="button" onclick="window.setTxType('income')" id="btn-inc" class="flex-1 py-4 text-[10px] font-black rounded-xl text-slate-400">MASUK</button></div>
                 <div class="grid grid-cols-3 gap-2"><button type="button" onclick="window.setTxCategory('Living')" id="cat-Living" class="cat-pill py-3 rounded-xl border border-white/10 text-[10px] font-black">LIVING</button><button type="button" onclick="window.setTxCategory('Lifestyle')" id="cat-Lifestyle" class="cat-pill py-3 rounded-xl border border-white/10 text-[10px] font-black opacity-50">LIFESTYLE</button><button type="button" onclick="window.setTxCategory('Giving')" id="cat-Giving" class="cat-pill py-3 rounded-xl border border-white/10 text-[10px] font-black opacity-50">GIVING</button></div>
-                <input type="number" id="tx-amount" class="w-full p-6 rounded-[24px] text-4xl font-black text-center outline-none input-adaptive font-bold" placeholder="0" required>
+                <input type="number" id="tx-amount" class="w-full p-6 rounded-[24px] text-4xl font-black text-center outline-none input-adaptive" placeholder="0" required>
                 <input type="text" id="tx-desc" class="w-full p-5 rounded-2xl outline-none text-center text-sm input-adaptive font-bold" placeholder="Keterangan">
                 <button type="submit" class="w-full py-6 premium-card font-black uppercase text-white shadow-xl">SIMPAN</button>
             </form>
@@ -365,16 +359,16 @@
         import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged, updateProfile as firebaseUpdateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, addDoc, updateDoc, deleteDoc, onSnapshot, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // --- Firebase Config ---
+        // Firebase Setup - Menggunakan system global agar tidak config-not-found
         const firebaseConfig = JSON.parse(__firebase_config);
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'fantrack-main-app';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'fantrack-main';
 
-        // --- Global State ---
+        // --- GLOBAL STATE ---
         window.isLoggedIn = false;
-        window.authMode = 'login'; 
+        window.authMode = 'login';
         let user = null;
         let transactions = [], targets = [], debts = [];
         let miniChart = null, yearlyMainChart = null;
@@ -382,18 +376,18 @@
 
         const setUI = (id, text) => { const el = document.getElementById(id); if(el) el.innerText = text; };
 
-        // --- Auth Initialization ---
-        const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        // --- AUTH LOGIC (DIPERBAIKI) ---
+        async function initAuth() {
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                try {
                     await signInWithCustomToken(auth, __initial_auth_token);
+                } catch (e) {
+                    console.warn("Token auth fail, waiting for form.");
                 }
-            } catch (err) {
-                console.error("Auth Fail:", err);
             }
-        };
+        }
 
-        // UI State Switcher
+        // Fungsi khusus untuk menampilkan dashboard secara bersih
         const showDashboard = (displayName) => {
             window.isLoggedIn = true;
             document.getElementById('auth-screen').classList.add('hidden');
@@ -403,60 +397,52 @@
             setupFirestoreListeners();
         };
 
-        const showLogin = () => {
-            window.isLoggedIn = false;
-            document.getElementById('auth-screen').classList.remove('hidden');
-            document.getElementById('app-shell').classList.add('hidden-auth');
-        };
-
         onAuthStateChanged(auth, (u) => {
             user = u;
             if (user) {
                 showDashboard(user.displayName);
             } else {
-                showLogin();
+                window.isLoggedIn = false;
+                document.getElementById('auth-screen').classList.remove('hidden');
+                document.getElementById('app-shell').classList.add('hidden-auth');
             }
         });
 
         const setupFirestoreListeners = () => {
             if (!user) return;
             const path = ['artifacts', appId, 'users', user.uid];
-            onSnapshot(collection(db, ...path, 'transactions'), (snap) => { transactions = snap.docs.map(d => ({ id: d.id, ...d.data() })); updateAllUI(); }, (err) => console.error(err));
-            onSnapshot(collection(db, ...path, 'targets'), (snap) => { targets = snap.docs.map(d => ({ id: d.id, ...d.data() })); updateAllUI(); }, (err) => console.error(err));
-            onSnapshot(collection(db, ...path, 'debts'), (snap) => { debts = snap.docs.map(d => ({ id: d.id, ...d.data() })); updateAllUI(); }, (err) => console.error(err));
+            onSnapshot(collection(db, ...path, 'transactions'), (snap) => { transactions = snap.docs.map(d => ({ id: d.id, ...d.data() })); updateAllUI(); });
+            onSnapshot(collection(db, ...path, 'targets'), (snap) => { targets = snap.docs.map(d => ({ id: d.id, ...d.data() })); updateAllUI(); });
+            onSnapshot(collection(db, ...path, 'debts'), (snap) => { debts = snap.docs.map(d => ({ id: d.id, ...d.data() })); updateAllUI(); });
         };
 
         const updateAllUI = () => { renderHome(); window.renderReport(); renderDebts(); renderTargets(); };
 
-        // --- Window Globals ---
+        // --- WINDOW GLOBALS ---
         window.setAuthMode = (mode) => {
             window.authMode = mode;
             const regFields = document.getElementById('register-fields');
             const submitBtn = document.getElementById('auth-submit-btn');
             const loginBtn = document.getElementById('mode-login-btn');
             const regBtn = document.getElementById('mode-register-btn');
-            const msg = document.getElementById('auth-msg');
-
             if (mode === 'register') {
                 regFields.classList.remove('hidden');
                 submitBtn.innerText = 'DAFTAR SEKARANG';
                 loginBtn.classList.remove('active');
                 regBtn.classList.add('active');
-                msg.innerText = 'Buat akun baru FANTrack';
             } else {
                 regFields.classList.add('hidden');
                 submitBtn.innerText = 'MASUK SESI';
                 loginBtn.classList.add('active');
                 regBtn.classList.remove('active');
-                msg.innerText = 'Gunakan akun demo Anda';
             }
         };
 
         window.navigate = (p) => {
             if(!window.isLoggedIn) return;
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            const targetPage = document.getElementById(`page-${p}`);
-            if(targetPage) targetPage.classList.add('active');
+            const pg = document.getElementById(`page-${p}`);
+            if(pg) pg.classList.add('active');
             document.querySelectorAll('.nav-link, .bottom-nav button').forEach(n => {
                 const isActive = n.id === `side-${p}` || n.id === `nav-${p}`;
                 n.classList.toggle('active', isActive);
@@ -482,27 +468,32 @@
         window.setDebtInputType = (t) => { debtInputType = t; document.getElementById('btn-db-hutang').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'hutang' ? 'bg-slate-700 text-white' : 'text-slate-400'}`; document.getElementById('btn-db-piutang').className = `flex-1 py-4 text-[10px] font-black rounded-xl ${t === 'piutang' ? 'bg-slate-700 text-white' : 'text-slate-400'}`; };
         window.setDebtTrack = (m) => { debtTrackMode = m; document.getElementById('tab-hutang').className = `debt-tab flex-1 ${m === 'hutang' ? 'active-hutang' : 'inactive'}`; document.getElementById('tab-piutang').className = `debt-tab flex-1 ${m === 'piutang' ? 'active-piutang' : 'inactive'}`; renderDebts(); };
         window.toggleStableInput = () => { const style = document.getElementById('tg-style').value; document.getElementById('stable-nominal-container').style.opacity = style === 'stabil' ? '1' : '0.3'; document.getElementById('tg-stable-val').disabled = style !== 'stabil'; };
-        window.updateProfile = async () => { const n = document.getElementById('edit-name').value; if(n && user) { await firebaseUpdateProfile(user, { displayName: n }); setUI('side-name', n); setUI('profile-name-display', n); alert('Profil Berhasil Diperbarui'); } };
+        window.updateProfile = async () => { const n = document.getElementById('edit-name').value; if(n && user) { await firebaseUpdateProfile(user, { displayName: n }); setUI('side-name', n); setUI('profile-name-display', n); } };
         window.logout = () => { auth.signOut().then(() => location.reload()); };
 
-        // --- Auth Form Logic ---
+        // --- SUBMIT HANDLER ---
         document.getElementById('auth-form').onsubmit = async (e) => {
             e.preventDefault();
             const username = document.getElementById('auth-username').value;
             const fullname = document.getElementById('auth-fullname').value;
+            const submitBtn = document.getElementById('auth-submit-btn');
+            
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Memproses...";
+
             try {
-                // Di pratinjau Canvas, gunakan sign-in anonim agar tidak terbentur permission
                 const cred = await signInAnonymously(auth);
-                const nameToSet = (window.authMode === 'register' && fullname) ? fullname : username;
+                const nameToSet = (window.authMode === 'register' && fullname) ? fullname : (username || 'User');
                 await firebaseUpdateProfile(cred.user, { displayName: nameToSet });
-                // Transisi ditangani oleh onAuthStateChanged
+                // Dashboard akan terbuka otomatis via onAuthStateChanged
             } catch (err) {
-                console.error("Auth Error", err);
-                alert("Terjadi kesalahan teknis. Coba lagi.");
+                console.error("Auth Fail:", err);
+                submitBtn.disabled = false;
+                submitBtn.innerText = window.authMode === 'register' ? 'DAFTAR SEKARANG' : 'MASUK SESI';
             }
         };
 
-        // --- Core UI Functions ---
+        // --- CORE FUNCTIONS ---
         function renderHome() {
             const inc = transactions.filter(t => t.type === 'income').reduce((a,b) => a + Number(b.amount), 0);
             const exp = transactions.filter(t => t.type === 'expense').reduce((a,b) => a + Number(b.amount), 0);
@@ -510,12 +501,10 @@
             setUI('home-debt-val', `Rp ${debts.filter(d => d.type === 'hutang' && d.status === 'belum').reduce((a,b)=>a+(Number(b.amount)-Number(b.paid)),0).toLocaleString()}`);
             setUI('home-receiv-val', `Rp ${debts.filter(d => d.type === 'piutang' && d.status === 'belum').reduce((a,b)=>a+(Number(b.amount)-Number(b.paid)),0).toLocaleString()}`);
             const list = document.getElementById('home-tx-list');
-            if(list) list.innerHTML = transactions.sort((a,b) => (b.date?.seconds || 0) - (a.date?.seconds || 0)).slice(0, 5).map(t => `<div class="glass-card p-6 flex justify-between items-center text-adaptive"><div class="flex items-center gap-4 text-adaptive"><div class="w-12 h-12 bg-black/10 dark:bg-white/10 rounded-2xl flex items-center justify-center text-xl shadow-inner text-adaptive"><i class="fas ${t.type==='income'?'fa-arrow-up text-emerald-400':'fa-arrow-down text-rose-400'}"></i></div><div><p class="text-sm font-bold text-adaptive">${t.desc}</p><p class="text-[9px] opacity-60 uppercase font-black text-adaptive">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString() : '-'}</p></div></div><div class="flex items-center gap-4 text-adaptive"><p class="font-black ${t.type === 'expense' ? 'text-rose-400' : 'text-emerald-400'}">${t.type === 'expense' ? '-' : '+'} ${Number(t.amount).toLocaleString()}</p></div></div>`).join('');
+            if(list) list.innerHTML = transactions.sort((a,b) => (b.date?.seconds || 0) - (a.date?.seconds || 0)).slice(0, 5).map(t => `<div class="glass-card p-6 flex justify-between items-center text-adaptive"><div class="flex items-center gap-4"><div class="w-12 h-12 bg-black/10 dark:bg-white/10 rounded-2xl flex items-center justify-center text-xl shadow-inner text-adaptive"><i class="fas ${t.type==='income'?'fa-arrow-up text-emerald-400':'fa-arrow-down text-rose-400'}"></i></div><div><p class="text-sm font-bold text-adaptive">${t.desc}</p><p class="text-[9px] opacity-60 uppercase font-black text-adaptive">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString() : '-'}</p></div></div><div class="flex items-center gap-4 text-adaptive"><p class="font-black ${t.type === 'expense' ? 'text-rose-400' : 'text-emerald-400'}">${t.type === 'expense' ? '-' : '+'} ${Number(t.amount).toLocaleString()}</p></div></div>`).join('');
             const ctx = document.getElementById('miniChart');
             if(ctx) { if(miniChart) miniChart.destroy(); miniChart = new Chart(ctx.getContext('2d'), { type: 'doughnut', data: { datasets: [{ data: [exp || 1, Math.max(1, inc-exp)], backgroundColor: ['#f87171', '#3b82f6'], borderWidth: 0, borderRadius: 10, spacing: 5 }] }, options: { cutout: '85%', plugins: { legend: { display: false } } } }); }
         }
-
-        window.deleteTx = async (id) => { if(user) await deleteDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'transactions', id)); };
 
         window.renderReport = () => {
             const mNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -531,6 +520,8 @@
             if(fullList) { const monthTxs = transactions.filter(t => (t.date ? new Date(t.date.seconds * 1000).getMonth() : -1) === selMonth); fullList.innerHTML = monthTxs.reverse().map(t => `<div class="glass-card p-4 flex justify-between items-center text-adaptive"><div><p class="font-bold text-sm text-adaptive">${t.desc}</p><p class="text-[9px] opacity-60 uppercase font-black text-adaptive">${t.date ? new Date(t.date.seconds * 1000).toLocaleDateString() : '-'}</p></div><div class="text-right flex items-center gap-4 text-adaptive"><p class="font-black ${t.type==='expense'?'text-rose-400':'text-emerald-400'}">${t.type==='expense'?'-':'+'} Rp ${Number(t.amount).toLocaleString()}</p><button onclick="window.deleteTx('${t.id}')" class="text-rose-500 text-xs p-2 hover:bg-rose-500/10 rounded-lg transition-all"><i class="fas fa-trash"></i></button></div></div>`).join('') || '<p class="text-center opacity-40 text-adaptive">Tidak ada data</p>'; }
         };
 
+        window.deleteTx = async (id) => { if(user) await deleteDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'transactions', id)); };
+
         function renderDebts() {
             const list = document.getElementById('debt-list');
             const filtered = debts.filter(d => d.type === debtTrackMode);
@@ -540,11 +531,10 @@
                 return `<div class="glass-card p-6 space-y-4 relative ${d.status === 'lunas' ? 'opacity-30' : ''} text-adaptive"><div class="flex justify-between items-start text-adaptive"><div class="flex gap-3 text-adaptive"><div onclick="window.toggleDebtCheck('${d.id}')" class="w-6 h-6 rounded-lg border-2 border-white/20 flex items-center justify-center cursor-pointer">${d.status === 'lunas' ? '<i class="fas fa-check text-blue-500"></i>' : ''}</div><div><h4 class="font-black text-sm text-adaptive">${d.name}</h4><p class="text-[9px] font-bold ${diff < 0 ? 'text-rose-500' : 'text-emerald-500'} uppercase">${diff < 0 ? 'Telat '+Math.abs(diff)+' Hari' : 'Sisa '+diff+' Hari'}</p></div></div><div class="flex gap-2 text-adaptive"><button onclick="window.deleteDebt('${d.id}')" class="text-rose-500 text-xs"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-1.5 rounded-full overflow-hidden shadow-inner text-adaptive"><div class="bg-amber-500 h-full text-adaptive" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-[10px] font-black opacity-60 text-adaptive"><span>Saldo: Rp ${Number(d.amount).toLocaleString()}</span><span>Lunas: ${Math.round(perc)}%</span></div><button onclick="window.openDebtPay('${d.id}')" class="w-full py-2.5 bg-white/5 hover:bg-blue-500 hover:text-white rounded-xl text-[9px] font-black uppercase text-adaptive transition-all font-black">CICIL</button></div>`;
             }).join('');
         }
-
         window.toggleDebtCheck = async (id) => { if(user) { const d = debts.find(x => x.id === id); const ns = d.status === 'lunas' ? 'belum' : 'lunas'; await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id), { status: ns, paid: ns === 'lunas' ? d.amount : 0 }); } };
         window.deleteDebt = async (id) => { if(user) await deleteDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id)); };
         window.openDebtPay = (id) => { const d = debts.find(x => x.id === id); if(d) { document.getElementById('debt-pay-id').value = id; setUI('debt-pay-info', d.name); setUI('debt-pay-remaining', `Sisa: Rp ${(Number(d.amount) - Number(d.paid)).toLocaleString()}`); window.openModal('debt-pay'); } };
-        document.getElementById('form-debt-pay').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const id = document.getElementById('debt-pay-id').value, amt = Number(document.getElementById('debt-pay-amount').value), d = debts.find(x => x.id === id); if(d && amt > 0) { const np = Number(d.paid) + amt; await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id), { paid: np, status: np >= Number(d.amount) ? 'lunas' : 'belum' }); await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'transactions'), { amount: amt, desc: `Cicil: ${d.name}`, type: d.type === 'hutang' ? 'expense' : 'income', category: 'Living', date: Timestamp.now() }); window.closeModals(); } };
+        document.getElementById('form-debt-pay').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const id = document.getElementById('debt-pay-id').value, amt = Number(document.getElementById('debt-pay-amount').value), d = debts.find(x => x.id === id); if(d && amt > 0) { const np = Number(d.paid) + amt; await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'debts', id), { paid: np, status: np >= Number(d.amount) ? 'lunas' : 'belum' }); await addDoc(collection(db, ...['artifacts', appId, 'users', user.uid], 'transactions'), { amount: amt, desc: `Cicil: ${d.name}`, type: d.type === 'hutang' ? 'expense' : 'income', category: 'Living', date: Timestamp.now() }); window.closeModals(); } };
 
         function renderTargets() {
             const list = document.getElementById('target-list');
@@ -561,15 +551,15 @@
                 return `<div class="glass-card p-8 flex flex-col gap-6 text-adaptive relative overflow-hidden group text-adaptive"><div class="flex justify-between items-start text-adaptive"><div><h3 class="font-black text-xl text-adaptive">${tg.name}</h3><p class="text-[10px] font-black uppercase opacity-60 text-adaptive">${tg.style} • ${tg.freq}</p></div><div class="flex gap-2"><button onclick="window.deleteTarget('${tg.id}')" class="text-rose-500 text-xs"><i class="fas fa-trash"></i></button></div></div><div class="w-full bg-black/20 h-2.5 rounded-full overflow-hidden shadow-inner"><div class="bg-blue-600 h-full transition-all duration-1000" style="width:${perc}%"></div></div><div class="flex justify-between items-center text-xs font-black text-adaptive"><span>Target: Rp ${Number(tg.goal).toLocaleString()}</span><span>${perc}%</span></div><div class="flex justify-between text-[10px] font-bold opacity-60 text-adaptive"><span>Sisa: ${diff} Hari</span><span>Saran per ${label}: Rp ${sysSuggest.toLocaleString()}</span></div>${btn}</div>`;
             }).join('');
         }
-        window.saveTarget = async (id, amt) => { if(!user) return; const t = targets.find(x => x.id === id); if(t && amt > 0) { await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'targets', id), { saved: Number(t.saved) + Number(amt) }); await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'transactions'), { amount: amt, desc: `Tabung: ${t.name}`, type: 'expense', category: 'Living', date: Timestamp.now() }); } };
+        window.saveTarget = async (id, amt) => { if(!user) return; const t = targets.find(x => x.id === id); if(t && amt > 0) { await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'targets', id), { saved: Number(t.saved) + Number(amt) }); await addDoc(collection(db, ...['artifacts', appId, 'users', user.uid], 'transactions'), { amount: amt, desc: `Tabung: ${t.name}`, type: 'expense', category: 'Living', date: Timestamp.now() }); } };
         window.deleteTarget = async (id) => { if(user) await deleteDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'targets', id)); };
         window.openCustomSave = (id) => { const t = targets.find(x => x.id === id); if(t) { document.getElementById('save-custom-id').value = id; setUI('save-custom-info', t.name); window.openModal('save-custom'); } };
         document.getElementById('form-save-custom').onsubmit = async (e) => { e.preventDefault(); await window.saveTarget(document.getElementById('save-custom-id').value, Number(document.getElementById('save-custom-amount').value)); window.closeModals(); };
-        document.getElementById('form-target').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const data = { name: document.getElementById('tg-name').value, goal: Number(document.getElementById('tg-goal').value), deadline: document.getElementById('tg-date').value, style: document.getElementById('tg-style').value, freq: document.getElementById('tg-freq').value, stableVal: Number(document.getElementById('tg-stable-val').value) || 0 }; await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'targets'), { ...data, saved: 0 }); window.closeModals(); };
-        document.getElementById('form-debt').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const data = { name: document.getElementById('db-name').value, amount: Number(document.getElementById('db-amount').value), type: debtInputType, date: document.getElementById('db-date').value, status: 'belum', paid: 0 }; await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'debts'), data); window.closeModals(); };
-        document.getElementById('form-tx').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const id = document.getElementById('edit-tx-id').value, amt = Number(document.getElementById('tx-amount').value), desc = document.getElementById('tx-desc').value, data = { amount: amt, desc, type: txType, category: txCategory, date: Timestamp.now() }; if(id) await updateDoc(doc(db, 'artifacts', appId, 'users', user.uid, 'transactions', id), data); else await addDoc(collection(db, 'artifacts', appId, 'users', user.uid, 'transactions'), data); window.closeModals(); };
+        document.getElementById('form-target').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const data = { name: document.getElementById('tg-name').value, goal: Number(document.getElementById('tg-goal').value), deadline: document.getElementById('tg-date').value, style: document.getElementById('tg-style').value, freq: document.getElementById('tg-freq').value, stableVal: Number(document.getElementById('tg-stable-val').value) || 0 }; await addDoc(collection(db, ...['artifacts', appId, 'users', user.uid], 'targets'), { ...data, saved: 0 }); window.closeModals(); };
+        document.getElementById('form-debt').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const data = { name: document.getElementById('db-name').value, amount: Number(document.getElementById('db-amount').value), type: debtInputType, date: document.getElementById('db-date').value, status: 'belum', paid: 0 }; await addDoc(collection(db, ...['artifacts', appId, 'users', user.uid], 'debts'), data); window.closeModals(); };
+        document.getElementById('form-tx').onsubmit = async (e) => { e.preventDefault(); if(!user) return; const id = document.getElementById('edit-tx-id').value, amt = Number(document.getElementById('tx-amount').value), desc = document.getElementById('tx-desc').value, data = { amount: amt, desc, type: txType, category: txCategory, date: Timestamp.now() }; if(id) await updateDoc(doc(db, ...['artifacts', appId, 'users', user.uid], 'transactions', id), data); else await addDoc(collection(db, ...['artifacts', appId, 'users', user.uid], 'transactions'), data); window.closeModals(); };
 
-        // --- Init ---
+        // Start
         initAuth().catch(console.error);
 
     </script>
